@@ -93,11 +93,39 @@ def get_final_diag(df_doctor_diag_id):
     final_diag = df_doctor_diag_id.iloc[0]['final_diag']
     return str(first_diag).strip(),str(final_diag).strip()
 
+#At that time the year was processed to exceed the maximum year in mimic
+#The dict is meant to be able to be converted to datatime, and the original year exceeds the datatime's maximum value
+diag_to_datatime_dict= {
+    '2500-':'2000-',
+    '2501-':'2001-',
+    '2502-':'2002-',
+    '2503-': '2003-',
+    '2504-': '2004-',
+    '2505-': '2005-'
+}
+def convert_datatime(text):
+    text_after = None
+    for key in diag_to_datatime_dict.keys():
+        if key in text:
+            text_after = str(text).replace(key,diag_to_datatime_dict.get(key))
+            return text_after
+    return text_after
+
+def df_convert_datatime(df,rowname):
+    for index,row in df.iterrows():
+        text = row[rowname]
+        for key in diag_to_datatime_dict.keys():
+            if key in text:
+                text_after = str(text).replace(key,diag_to_datatime_dict.get(key))
+                df.at[index,rowname] = text_after
+    return df
+
 #②获取医生最终诊断的时间
 def get_diag_time(df_sys_log_id,df_doctor_diag_id):
     df_doctor_diag_id = df_doctor_diag_id[df_doctor_diag_id['operation'] != '点击下一个患者时自动保存信息']
     df_diag_last = df_doctor_diag_id.sort_values(by='time',ascending=False)
-    endtime = pd.to_datetime(df_diag_last.iloc[0]['time_text'])
+    endtime = pd.to_datetime(convert_datatime(df_diag_last.iloc[0]['time_text']))
+    df_sys_log_id = df_convert_datatime(df_sys_log_id,'create_time')
     df_sys_log_id.loc[:, 'create_time'] = pd.to_datetime(df_sys_log_id['create_time'])
     df_sys_log_id = df_sys_log_id[df_sys_log_id['create_time'] > endtime-pd.Timedelta(hours=1)]
     df_sys_log_id = df_sys_log_id[df_sys_log_id['module'] != '注销登录']
@@ -126,9 +154,9 @@ def get_first_diag_time(df_sys_log_id,df_doctor_diag_id):
             df = df_doctor_diag_id[df_doctor_diag_id['operation'] == '修改了初步诊断']
         else:
             df = df_doctor_diag_id[df_doctor_diag_id['primary_diag'].notnull()]
-        endtime = pd.to_datetime(df.iloc[0]['time_text'])
+        endtime = pd.to_datetime(convert_datatime(df.iloc[0]['time_text']))
     else:
-        endtime = pd.to_datetime(df_diag_last.iloc[0]['time_text'])
+        endtime = pd.to_datetime(convert_datatime(df_diag_last.iloc[0]['time_text']))
     df_sys_log_id.loc[:, 'create_time'] = pd.to_datetime(df_sys_log_id['create_time'])
     df_sys_log_id = df_sys_log_id[df_sys_log_id['create_time'] > endtime-pd.Timedelta(hours=1)]
     df_sys_log_id = df_sys_log_id[df_sys_log_id['module'] != '注销登录']
@@ -189,8 +217,7 @@ def model_data(text):
 
 def combine_feat(df_sample_id,df_docinfo_id,model_sort, model_visible, model_pre, model_prob_0h, model_prob_3h,diag_seq,first_diag,final_diag,first_diag_time,final_diag_time,percent_action):
 
-    del_list = ['SUBJECT_ID', 'BASE_CURRENT_SUM',
-                'NEXT_CURRENT_SUM', 'QSOFA_SCORE', 'GROUP', '基础信息（当前）中补充的数据', '下一步检查（当前）中补充的数据', '医生ID']
+    del_list = ['SUBJECT_ID','GROUP', '基础信息（当前）中补充的数据', '下一步检查（当前）中补充的数据', '医生ID']
     for del_sub in del_list:
         del df_sample_id[del_sub]
     df_sample_id['uuid'] = uuid.uuid4()
@@ -269,7 +296,8 @@ def log_to_csv():
 root = f'{pro_path}datasets/Original-Recorded-Version/'
 
 to_file = f'{pro_path}datasets/csv_and_pkl/data_0321_7000.csv'
-os.makedirs(f'{pro_path}datasets/csv_and_pkl')
+if not os.path.exists(f'{pro_path}datasets/csv_and_pkl'):
+    os.makedirs(f'{pro_path}datasets/csv_and_pkl')
 
 
 if __name__ == '__main__':
