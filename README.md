@@ -1,4 +1,4 @@
-# VC-MedAI(Transforming Clinical Trials in Medicine: The Reshaping Power of Virtual Clinician-Based In-silico Trials for AI)
+# VC-MedAI---Transforming Clinical Trials in Medicine: The Reshaping Power of Virtual Clinician-Based In-silico Trials for AI
 
 # 一.Data Access
 
