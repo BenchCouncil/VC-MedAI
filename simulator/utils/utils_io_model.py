@@ -218,3 +218,15 @@ def tensor_tolist(outputs,labels):
 
     return torch.tensor(predict_lists),torch.tensor(label_lists)
 
+
+def diagtime_label_to_range_statis(true_values, threshold):
+
+    low_values = []
+    high_values = []
+    for true in true_values:
+        low_value = max(true - true * threshold,0)
+        high_value = true + true * threshold
+
+        low_values.append(low_value)
+        high_values.append(high_value)
+    return low_values,high_values

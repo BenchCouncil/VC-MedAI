@@ -52,10 +52,11 @@ def get_true_virdoc_acc(log,df_sample,combine_param):
     virdoc_avgenext = None
     if len(virdoc_nextact_list) != 0:
         virdoc_avgenext = round(sum(virdoc_nextact_list) / len(virdoc_nextact_list), 2)
-    # print(f'随机医生诊断准确率 {round(virdoc_diagtime,2)}%')
 
     print(f'{virdoc_avgenext}')
 
+
+#run this py,please choose randomdoc_constant.py 'generalized 0h or 3h'
 
 if __name__ == '__main__':
 

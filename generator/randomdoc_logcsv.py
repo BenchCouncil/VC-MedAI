@@ -12,12 +12,7 @@ import ast
 import copy
 from  get_patemb_from_model_input import sepsis_patient_first_dict,sepsis_patient_final_dict
 
-root = f'{pro_path}datasets/Original-Recorded-Version/'
 
-df_sample = pd.read_csv(root +'sample_patient_model.csv', encoding='gbk')
-
-to_file = f'{pro_path}datasets/csv_and_pkl/data_randomdoc.csv'
-os.makedirs(f'{pro_path}datasets/csv_and_pkl')
 
 
 #给上述患者分给125个医生
@@ -44,6 +39,14 @@ def model_data(text):
     # print(
     #     f'model_sort {model_sort},model_visible {model_visible}, model_pre{model_pre},model_prob_0h {model_prob_0h},model_prob_3h {model_prob_3h}')
     return model_sort, model_visible, model_pre, model_prob_0h, model_prob_3h
+
+
+
+root = f'{pro_path}datasets/Original-Recorded-Version/'
+df_sample = pd.read_csv(root +'sample_patient_model.csv', encoding='gbk')
+to_file = f'{pro_path}datasets/csv_and_pkl/data_randomdoc.csv'
+if not os.path.exists(f'{pro_path}datasets/csv_and_pkl'):
+    os.makedirs(f'{pro_path}datasets/csv_and_pkl')
 
 
 if __name__ == '__main__':
@@ -84,8 +87,7 @@ if __name__ == '__main__':
 
 
     for docid,df_row in df_extended_group:
-        del_list = ['BASE_CURRENT_SUM',
-                    'NEXT_CURRENT_SUM', 'QSOFA_SCORE', 'GROUP', '基础信息（当前）中补充的数据', '下一步检查（当前）中补充的数据', '医生ID']
+        del_list = ['GROUP', '基础信息（当前）中补充的数据', '下一步检查（当前）中补充的数据', '医生ID']
         for del_sub in del_list:
             del df_row[del_sub]
         df_row['model_sort'] = None

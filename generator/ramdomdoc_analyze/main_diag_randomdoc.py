@@ -69,7 +69,6 @@ def get_true_virdoc_acc(log,df_sample,combine_param):
     randomdoc_acc = None
     if len(randomdoc_acc_list) != 0:
         randomdoc_acc = round(sum(randomdoc_acc_list)/len(randomdoc_acc_list),2)
-    # print(f'随机医生诊断准确率 {round(randomdoc_acc,2)}%')
 
     print(f'{randomdoc_acc}')
     # print(f'{log},{randomdoc_acc}')

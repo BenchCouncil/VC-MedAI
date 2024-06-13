@@ -1,6 +1,7 @@
 import torch.nn as nn
 import numpy as np
 from simulator.specialized.click_sequence.trs_constant import *
+import torch
 
 class PositionalEncoding(nn.Module):
     def __init__(self, d_model, dropout=0.1, max_len=5000):

@@ -46,7 +46,6 @@ def get_true_virdoc_acc(log,df_sample,combine_param):
     if len(truedoc_nextact_list) != 0:
         truedoc_avgenext = round(sum(truedoc_nextact_list)/len(truedoc_nextact_list),2)
 
-    # print(f'{log},数据量为{len(truedoc_nextact_list)}, 真实医生诊断准确率 {round(truedoc_nextact,2)}%,虚拟医生诊断准确率 {round(virdoc_nextact,2)}%')
     if value == '1':
       print(len(truedoc_nextact_list))
     elif value =='2':

@@ -26,8 +26,3 @@ for patid, emb in zip(final_diag_data.patient_id, final_diag_data.embedding):
         sepsis_patient_final_dict[patid] = emb[-17:]
 
 
-
-
-if __name__ == '__main__':
-    print()
-

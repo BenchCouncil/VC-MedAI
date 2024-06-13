@@ -55,7 +55,6 @@ def get_true_virdoc_acc(log,df_sample,combine_param):
     virdoc_avgenext = None
     if len(virdoc_diagtime_list) != 0:
         virdoc_avgenext = round(sum(virdoc_diagtime_list) / len(virdoc_diagtime_list), 2)
-    # print(f'随机医生诊断准确率 {round(virdoc_diagtime,2)}%')
 
     print(f'{virdoc_avgenext}')
     # print(f'{log},{virdoc_avgenext}')

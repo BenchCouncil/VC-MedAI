@@ -1,4 +1,3 @@
-from src.data_process.embedding.doctor_embedding import doctor_unit_dict
 
 
 def abstract_idlist(uuid_list,test_uuid,test_patient_id,test_truedoc_diag,test_truedoc_diag_range,test_virdoc_diag):
@@ -121,14 +120,12 @@ def model_visexper(model_sort,model_vis,df_log,combine_param):
 #医生单位等级
 def doctor_unit(unit,df_log,combine_param):
     if unit == '二甲':
-        filtered_dict = {key: value for key, value in doctor_unit_dict.items() if value == 1}
+        df = df_log[df_log['doctor_unit'] == 1]
     elif unit == '三甲':
-        filtered_dict = {key: value for key, value in doctor_unit_dict.items() if value == 2}
+        df = df_log[df_log['doctor_unit'] == 2]
     else:
-        filtered_dict = {key: value for key, value in doctor_unit_dict.items() if value == 3}
-    unit_list = list(filtered_dict.keys())
+        df = df_log[df_log['doctor_unit'] == 3]
     test_uuid, test_patient_id, test_truedoc_diag,test_truedoc_diag_range ,test_virdoc_diag = combine_param
-    df = df_log[df_log['doctor_unit'].isin(unit_list)]
     uuid_list = list(df['uuid'])
     return abstract_idlist(uuid_list,test_uuid,test_patient_id,test_truedoc_diag,test_truedoc_diag_range,test_virdoc_diag)
 

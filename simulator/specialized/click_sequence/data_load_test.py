@@ -31,7 +31,7 @@ def get_batch_indices(total_length, batch_size):
         yield indexs[current_index:current_index + batch_size], current_index
 
 
-root = '/home/ddcui/virtual-doctor/'
+root = pro_path
 fn_pkl = root + f'datasets/sepsis_model_input/first_data_7000_dim_35_clickseq.pkl'
 data = Data(fn=fn_pkl,flag = 'first')
 

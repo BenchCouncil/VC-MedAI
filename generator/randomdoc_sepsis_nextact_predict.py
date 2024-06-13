@@ -31,7 +31,7 @@ def get_dec_input(model, enc_input, start_symbol):
 
 
 def preprocess_emb_randomdoc():
-    root = '/home/ddcui/doctor/'
+    root = pro_path
     fn_pkl = root + f'datasets/randomdoc_model_input/sepsis_first_data_dim_35_randomdoc.pkl'
     data = Data(fn=fn_pkl, flag='first')
 
@@ -115,15 +115,13 @@ def add_randomdoc_clickseq(data_new):
         print(f'{i},{uuid}:{predict_str_list}')
 
         new_row = {'uuid': uuid, 'random_virtdoc_clickseq': predict_str_list}
-        # 使用 DataFrame 的 append 方法添加新行
+
         df_clickseq = pd.DataFrame(columns=['uuid', 'random_virtdoc_clickseq'])
         df_clickseq = df_clickseq.append(new_row, ignore_index=True)
 
         if os.path.exists(topath_clickseq):
-            # 如果文件存在，直接追加数据，不写入表头
             df_clickseq.to_csv(topath_clickseq, mode='a', header=False, index=False,encoding='gbk')
         else:
-            # 如果文件不存在，创建文件并写入数据，包括表头
             df_clickseq.to_csv(topath_clickseq, index=False,encoding='gbk')
 
         del enc_input
@@ -156,19 +154,10 @@ topath_clickseq = f'{pro_path}datasets/randomdoc_model_input/sepsis_model_ramdom
 
 
 if __name__ == '__main__':
-    # start_time = time.time()
-    #
+
     model = Transformer().to(device)
     model.load_state_dict(torch.load(model_path+test_model_name))
     model.eval()
 
-    #预测下一步检查百分比
     data_new = preprocess_emb_randomdoc()
-    # add_nextact(data_new)
-
-    # end_time = time.time()
-    # elapsed_minutes = (end_time - start_time) / 60
-    # print(f"预测下一步百分比 程序运行时间: {elapsed_minutes:.2f} 分钟，也就是{end_time - start_time}秒")
-
-
     add_randomdoc_clickseq(data_new)

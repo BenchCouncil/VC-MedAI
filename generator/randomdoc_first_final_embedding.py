@@ -89,19 +89,15 @@ def final_embedding(df, dict_patient_embeddings, model_sort, topath,feature_numd
 
 
 
-root = '/home/ddcui/doctor/datasets/csv_and_pkl/'
+root = f'{pro_path}datasets/csv_and_pkl/'
 def model_final_input_emb(model_sort,flag,feature_numdim,pca_dim,clickseq):
 
-    to_root = f'/home/ddcui/doctor/datasets/randomdoc_model_input/'
+    to_root = f'{pro_path}datasets/randomdoc_model_input/'
     if not os.path.exists(to_root):
         os.makedirs(to_root)
 
     df = pd.read_csv(root + f'data_randomdoc.csv', encoding='gbk')
 
-    # patient_embedding = root + f'patient_embedding_{flag}_randomdoc.pkl'
-    # unique_id_list, patient_embedding_list = read_patient_emb(patient_embedding)
-    # dim_embedding_list = pca(pca_dim, patient_embedding_list)
-    # dictionary = dict(zip(unique_id_list, dim_embedding_list))
     if flag == 'first' and model_sort == 'sepsis':
         dictionary = sepsis_patient_first_dict
     elif flag == 'final' and model_sort == 'sepsis':
@@ -129,13 +125,13 @@ if __name__ == '__main__':
     # print(f"初步诊断的特征嵌入 程序运行时间: {elapsed_minutes:.2f} 分钟，也就是{(end_time - start_time)}秒")
 
     # start_time = time.time()
-    # model_final_input_emb('sepsis','final',36,17,False) #最终模型的
+    # model_final_input_emb('sepsis','final',36,17,False) #when choose 'final'，need to run randomdoc_sepsis_nextact_predict.py firstly
     # end_time = time.time()
     # elapsed_minutes = (end_time - start_time) / 60
     # print(f"最终诊断的特征嵌入 程序运行时间: {elapsed_minutes:.2f} 分钟，也就是{(end_time - start_time)}秒")
 
-    # model_final_input_emb('normal_0h', 'first', 17, None, False)
-    # model_final_input_emb('normal_3h', 'first', 17, None, False)
+    model_final_input_emb('normal_0h', 'first', 17, None, False)
+    model_final_input_emb('normal_3h', 'first', 17, None, False)
 
-    model_final_input_emb('normal_0h', 'final', 18, None, False)
-    model_final_input_emb('normal_3h', 'final', 18, None, False)
+    # model_final_input_emb('normal_0h', 'final', 18, None, False)
+    # model_final_input_emb('normal_3h', 'final', 18, None, False)#when choose 'final'，need to run main_normal_nextact_randomdoc.py firstly

@@ -397,8 +397,7 @@ def row_to_embedding(row):
         first_xray_dense_emb, first_xray_predict_emb = single_chest_xray_embeddings(list(first_jpg_dict.keys())[0])
 
     if len(final_jpg_dict.keys()) > 1:
-        final_xray_dense_emb, final_xray_predict_emb = multi_chest_xray_embeddings(list(final_jpg_dict.keys()),
-                                                                                   list(final_jpg_dict.values()))
+        final_xray_dense_emb, final_xray_predict_emb = multi_chest_xray_embeddings(list(final_jpg_dict.keys()),list(final_jpg_dict.values()))
     elif len(final_jpg_dict.keys()) == 0:
         final_xray_dense_emb = None
         final_xray_predict_emb = None
@@ -486,11 +485,11 @@ def write_pkl(fn):
     final_patient_embedding = root+f'patient_embedding_final_randomdoc.pkl'
 
     # 读取患者特征嵌入
-    first_unique_id_list, first_patient_embedding_list = read_patient_emb(first_patient_embedding)
-    final_unique_id_list, final_patient_embedding_list = read_patient_emb(final_patient_embedding)
-
-    df = df[~df['UNIQUE_ID'].isin(list(set(first_unique_id_list) & set(final_unique_id_list)))]
-    print(f'待嵌入的患者还有{len(df)}')
+    if os.path.exists(final_patient_embedding):
+        first_unique_id_list, first_patient_embedding_list = read_patient_emb(first_patient_embedding)
+        final_unique_id_list, final_patient_embedding_list = read_patient_emb(final_patient_embedding)
+        df = df[~df['UNIQUE_ID'].isin(list(set(first_unique_id_list) & set(final_unique_id_list)))]
+        print(f'待嵌入的患者还有{len(df)}')
 
     rows = list(df.iterrows())
     row_list = [(index, row) for index, row in rows]
@@ -527,11 +526,9 @@ def write_pkl(fn):
 
 
 if __name__ == '__main__':
-    root = '/home/ddcui/doctor/datasets/csv_and_pkl/'
+    root = f'{pro_path}datasets/csv_and_pkl/'
 
     data = root +'data_randomdoc.csv'
 
     write_pkl(data)
-
-    print('完成嵌入')
-    # print(time_features)
+    print('embedding complete!')

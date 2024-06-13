@@ -1,8 +1,8 @@
 from transformers import AutoTokenizer, AutoModel
 import numpy as np
+from project_path import *
 
 #在haggingface上下的预训练模型
-biobert_path = '/home/ddcui/virtual-doctor/datasets/Bio_ClinicalBERT/'
 biobert_tokenizer = AutoTokenizer.from_pretrained(biobert_path)
 biobert_model = AutoModel.from_pretrained(biobert_path)
 
