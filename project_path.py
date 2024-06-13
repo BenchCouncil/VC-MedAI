@@ -1,0 +1,1 @@
+pro_path = '/home/ddcui/VD-MedAI/'
