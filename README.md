@@ -73,7 +73,7 @@ model = 0h or 3h
 |3|python 3_preliminary_{model}_diagtime.py 'test'|Testing with the generalized model for preliminary diagnosis time.|
 
 
-### 3.2 Patient Advanced Item Ratio to be Tested
+### 3.2 Patient Advanced Item Ratio to be Tested Model
 | No. | Code | Description |
 | ------- | ------- | ------- |
 |1|cd simulator/data_process/|Change directory.|
