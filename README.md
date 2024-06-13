@@ -1,6 +1,6 @@
 # VC-MedAI(Transforming Clinical Trials in Medicine: The Reshaping Power of Virtual Clinician-Based In-silico Trials for AI)
 
-# Data Access
+#一.Data Access
 
 AI.vs.Clinician database comprises a set of comma-separated value (CSV) files and all related source code. Since the database contains not only the patients’ information from MIMIC databases but also the clinicians’ information from 14 medical centers, users must use the database with caution and respect. The database has been uploaded to PhysioNet35 platform  and is waiting for approval. We also upload the database to the Journal’s online submission system for review. To access the database, the following steps need to be completed:
  
@@ -10,9 +10,9 @@ AI.vs.Clinician database comprises a set of comma-separated value (CSV) files an
 Our project uses the data version "Original-Recorded-Version".
 
 
-# VC-MedAI Simulator
+#二.VC-MedAI Simulator
 
-## 一.Data Embedding
+## 2.1 Data Embedding
 | No. | Code | Description |
 | ------- | ------- | ------- |
 |1|requirements.txt|Install environment.|
@@ -24,8 +24,8 @@ Our project uses the data version "Original-Recorded-Version".
 |7|python csv_to_embedding.py|Patient information embedding(including imaging jpg using TorchXRayVision, imaging reports using BioBERT, and temporal examinations using TSFresh).|
 
 
-## 二.The Specialized In-Silico Trials for Sepsis
-### 2.1 Clinician Click Sequence of Viewed Examination Items Model
+## 2.2 The Specialized In-Silico Trials for Sepsis
+### 2.2.1 Clinician Click Sequence of Viewed Examination Items Model
 
 | No. | Code | Description |
 | ------- | ------- | ------- |
@@ -37,7 +37,7 @@ Our project uses the data version "Original-Recorded-Version".
 |7|python predict_nextact.py|Predicting the percentage for the next check.The predicted results will be loaded into the final model input|
 
 
-### 2.2 Clinician Diagnosis and Diagnosis Time Models (Preliminary and Final)
+### 2.2.2 Clinician Diagnosis and Diagnosis Time Models (Preliminary and Final)
 The final model input data will require patient advanced item Ratio to be tested according to the predicted results from the 'Clinician Click Sequence Model'.
 
 | No. | Code | Description |
@@ -56,12 +56,12 @@ The final model input data will require patient advanced item Ratio to be tested
 |8|python 5_final_sepsis_diagtime.py 'test'|Testing with the specialized model for final diagnosis time.|
 
 
-## 三.The Generalized Simulator
+## 2.3 The Generalized Simulator
 Generalized simulator provides general simulation and has no patient sector.
 
 model = 0h or 3h
 
-### 3.1 Clinician Diagnosis and Diagnosis Time Models (Preliminary)
+### 2.3.1 Clinician Diagnosis and Diagnosis Time Models (Preliminary)
 | No. | Code | Description |
 | ------- | ------- | ------- |
 |1|cd simulator/data_process/|Change directory.|
@@ -73,7 +73,7 @@ model = 0h or 3h
 |3|python 3_preliminary_{model}_diagtime.py 'test'|Testing with the generalized model for preliminary diagnosis time.|
 
 
-### 3.2 Patient Advanced Item Ratio to be Tested Model
+### 2.3.2 Patient Advanced Item Ratio to be Tested Model
 | No. | Code | Description |
 | ------- | ------- | ------- |
 |1|cd simulator/data_process/|Change directory.|
@@ -84,7 +84,7 @@ model = 0h or 3h
 |2|python 2_preliminary_{model}_action.py 'predict'|Predicting with the generalized model for patient advanced item ratio to be tested.The predicted results will be loaded into the final model input.|
 
 
-### 3.3 Clinician Diagnosis and Diagnosis Time Models (Final)
+### 2.3.3 Clinician Diagnosis and Diagnosis Time Models (Final)
 The final model input data will require the predicted results from model "Patient Advanced Item Ratio to be Tested ".
 
 
@@ -99,7 +99,7 @@ The final model input data will require the predicted results from model "Patien
 |5|python 5_final_{model}_diagtime.py 'test'|Testing with the generalized model for final diagnosis.|
 
 
-# VC-MedAI Generator
+#三.VC-MedAI Generator
 | No. | Code | Description |
 | ------- | ------- | ------- |
 |1|cd generator/|Change directory.|
