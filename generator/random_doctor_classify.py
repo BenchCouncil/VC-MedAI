@@ -215,3 +215,30 @@ def docdiag_same_or_diff(df_randomdoc,randomdoc_uuids, randomdoc_diags):
     df_diagdiff = df_randomdoc[df_randomdoc['model_pre'] != df_randomdoc['virdoc_diag']]
     print(f'真实医生和模型诊断一致的数量：{len(df_diagsame)},诊断不一致的数量:{len(df_diagdiff)}')
     return df_diagsame,df_diagdiff
+
+
+def get_patient_label_3h_label0(df):
+    ill_time = df.iloc[0]['ILL_TIME']
+    # 无患病时间，真实label是无脓毒症
+    if str(ill_time) == 'nan':
+        return 0
+    else:
+        range = df.iloc[0]['TIME_RANGE']
+        if range == '3h':
+            # 有患病时间，但是时间段是3h(患病时间之前的时间段),所以真实label是无脓毒症
+            return 0
+        else:
+            # 有患病时间，时间段是0h和-3h(患病时间之后的时间段)，所以真实label是脓毒症
+            return 1
+
+def get_patient_label_3h_label1(df):
+    ill_time = df.iloc[0]['ILL_TIME']
+    # 无患病时间，真实label是无脓毒症
+    if str(ill_time) == 'nan':
+        return 0
+    else:
+        range = df.iloc[0]['TIME_RANGE']
+        if range == '3h':
+            return 1
+        else:
+            return 1

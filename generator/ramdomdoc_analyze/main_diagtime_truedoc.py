@@ -1,10 +1,11 @@
 import sys
-sys.path.append('/home/ddcui/doctor/')
-from src.utils.utils_io_model import *
-from src.random_doc.ramdomdoc_analyze.randomdoc_constant import *
-from src.utils.utils_dataloader import *
+from project_path import pro_path
+sys.path.append(pro_path)
+from simulator.utils.utils_io_model import *
+from randomdoc_constant import *
+from simulator.utils.utils_dataloader import *
 import pandas as pd
-from src.hunman_doc.doctor_classify_diagtime import *
+from generator.doctor_classify_diagtime import *
 
 
 

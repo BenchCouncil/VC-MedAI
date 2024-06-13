@@ -1,13 +1,13 @@
 import sys
-sys.path.append('/home/ddcui/doctor/')
-from src.utils.utils_io_model import *
-from src.random_doc.ramdomdoc_analyze.randomdoc_constant import *
-from src.utils.utils_dataloader import *
+from project_path import pro_path
+sys.path.append(pro_path)
+from simulator.utils.utils_io_model import *
+from randomdoc_constant import *
+from simulator.utils.utils_dataloader import *
 import pandas as pd
-from src.random_doc.random_doctor_classify import *
+from generator.random_doctor_classify import *
 import copy
-from src.data_process.embedding.doctor_embedding import *
-from src.hunman_doc.main_diag_testdata import get_patient_label_3h_label0,get_patient_label_3h_label1
+from simulator.data_process.embedding.doctor_embedding import *
 
 
 def get_diag_model(fn_pkl,flag,model_sort,diag_modelname):
@@ -73,6 +73,7 @@ def get_true_virdoc_acc(log,df_sample,combine_param):
 
     print(f'{randomdoc_acc}')
     # print(f'{log},{randomdoc_acc}')
+
 
 if __name__ == '__main__':
 

@@ -102,13 +102,20 @@ def to_xgb(train_set):
     percent_action = np.array(train_set.percent_action)
     return embedding, diag, diag_time,percent_action,
 
+def randomdoc_to_xgb(data1):
+    embedding = np.array(data1.embedding)
+    embedding = np.where(np.array(embedding) is None, 0.0, embedding)
+    embedding = embedding.astype(float)
+    embedding = np.nan_to_num(embedding, nan=0.0, posinf=0.0, neginf=0.0)
+    data1.embedding = embedding
+    return data1
+
+
 def to_click_seq(train_set):
     embedding = np.array(train_set.embedding)
     embedding = np.where(np.array(embedding) is None, 0.0, embedding)
     embedding = embedding.astype(float)
     embedding = np.nan_to_num(embedding, nan=0.0, posinf=0.0, neginf=0.0)
-
-
     click_seq = np.array(train_set.click_seq)
 
     return embedding,click_seq
