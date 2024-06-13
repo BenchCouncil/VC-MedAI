@@ -1,13 +1,11 @@
 import sys
-sys.path.append('/home/ddcui/doctor/')
-from src.utils.utils_io_pkl import *
-from src.data_process.reduce_dim.reduce_dim import *
+from project_path import pro_path
+sys.path.append(pro_path)
+
 import pickle
 import os
-from src.data_process.embedding.model_embedding import *
-from src.model.sepsis_model.transformer.predict_nextact import get_nextact_by_uuid
-from src.random_doc.get_patemb_from_model_input import sepsis_patient_first_dict,sepsis_patient_final_dict
-import time
+from simulator.data_process.embedding.model_embedding import *
+from get_patemb_from_model_input import sepsis_patient_first_dict,sepsis_patient_final_dict
 
 
 

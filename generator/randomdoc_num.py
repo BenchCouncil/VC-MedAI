@@ -1,5 +1,7 @@
-import pandas as pd
-from src.data_process.embedding.doctor_embedding import *
+import sys
+from project_path import pro_path
+sys.path.append(pro_path)
+from simulator.data_process.embedding.doctor_embedding import *
 import random
 import time
 
@@ -45,11 +47,10 @@ def generate_doctor(num,df):
             random_doc_list.append((group_unit, group_sex, group_age, group_year, title, group_field, group_depart))
     return random_doc_list
 
+path = f'{pro_path}datasets/csv_and_pkl/data_0321_7000.csv'
 
-path = '/home/ddcui/doctor/datasets/csv_and_pkl/data_0321_7000.csv'
-df = pd.read_csv(path,encoding='gbk',usecols=['uuid','diag_seq','doctor_name','doctor_unit','doctor_sex','doctor_age','doctor_year','doctor_depart','doctor_title','doctor_field'])
+df = pd.read_csv(path,encoding='gbk',usecols=['uuid','diag_seq','doctor_unit','doctor_sex','doctor_age','doctor_year','doctor_depart','doctor_title','doctor_field'])
 
-df['doctor_unit'] = df['doctor_unit'].map(doctor_unit_dict)
 df['doctor_sex'] = df['doctor_sex'].map(doctor_sex_dict)
 df['doctor_depart'] = df['doctor_depart'].map(doctor_depart_dict)
 df['doctor_title'] = df['doctor_title'].map(doctor_title_dict)

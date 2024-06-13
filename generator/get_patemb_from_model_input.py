@@ -1,11 +1,13 @@
-from src.utils.utils_dataloader import *
+from simulator.utils.utils_dataloader import *
+import sys
+from project_path import pro_path
+sys.path.append(pro_path)
 
 
-root = '/home/ddcui/doctor/'
-first_fn_pkl = root + f'datasets/sepsis_model_input/first_data_7000_dim_35.pkl'
+first_fn_pkl = pro_path + f'datasets/sepsis_model_input/first_data_7000_dim_35.pkl'
 first_diag_data = Data(fn=first_fn_pkl, flag='first')
 
-final_fn_pkl = root + f'datasets/sepsis_model_input/final_data_7000_dim_36.pkl'
+final_fn_pkl = pro_path + f'datasets/sepsis_model_input/final_data_7000_dim_36.pkl'
 final_diag_data = Data(fn=final_fn_pkl, flag='final')
 
 sepsis_patient_first_dict = {}
@@ -24,8 +26,7 @@ for patid, emb in zip(final_diag_data.patient_id, final_diag_data.embedding):
         sepsis_patient_final_dict[patid] = emb[-17:]
 
 
-#专用模型：初步 最后17维，最终  减去最后一位后得到最后17维度
-#普适模型
+
 
 if __name__ == '__main__':
     print()

@@ -1,4 +1,4 @@
-from src.data_process.embedding.doctor_embedding import doctor_unit_dict,doctor_title_dict,doctor_depart_dict
+from simulator.data_process.embedding.doctor_embedding import doctor_unit_dict,doctor_title_dict,doctor_depart_dict
 
 
 def abstract_idlist(uuid_list,test_uuid,test_patient_id,test_virdoc_diag):

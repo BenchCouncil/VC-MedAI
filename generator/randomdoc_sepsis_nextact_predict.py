@@ -1,14 +1,14 @@
 import sys
-sys.path.append('/home/ddcui/doctor/')
-from src.model.sepsis_model.transformer.datasets import *
-from src.model.sepsis_model.transformer.constant import *
-from src.model.sepsis_model.transformer.data_load_test import *
-from src.model.sepsis_model.transformer.transformer import Transformer
+from project_path import pro_path
+sys.path.append(pro_path)
+from simulator.specialized.click_sequence.datasets import *
+from simulator.specialized.click_sequence.trs_constant import *
+from simulator.specialized.click_sequence.data_load_test import *
+from simulator.specialized.click_sequence.transformer import Transformer
 from nltk.translate.bleu_score import sentence_bleu,SmoothingFunction
 import warnings
 # 忽略特定类型的警告
 warnings.filterwarnings("ignore")
-from src.hunman_doc.random_virdoc import uuid_randomdoc_dict
 import time
 import os
 import pandas as pd
@@ -151,19 +151,8 @@ def read_nextact_pkl(topath):
     return uuid_list, nextact_list
 
 
-def ramdom_doc(data1):
-    data_copy = copy.deepcopy(data1)
-    # 替换医生信息为随机医生信息
-    for uuid, embedding in zip(data_copy.uuid, data_copy.embedding):
-        if uuid in uuid_randomdoc_dict.keys():
-            randomdoc_emb = uuid_randomdoc_dict.get(uuid)
-            embedding[1:8] = randomdoc_emb  # 只修改医生的信息
-            data_copy.embedding[data1.uuid.index(uuid)] = embedding  # 不直接使用data是因为，data被修改了 缩放到了0-1
-    return data_copy
-
-topath = '/home/ddcui/doctor/datasets/randomdoc_model_input/sepsis_model_ramdom_doctor_nextact_predict.pkl'
-
-topath_clickseq = '/home/ddcui/doctor/datasets/randomdoc_model_input/sepsis_model_ramdom_doctor_clickseq.csv'
+topath = f'{pro_path}datasets/randomdoc_model_input/sepsis_model_ramdom_doctor_nextact_predict.pkl'
+topath_clickseq = f'{pro_path}datasets/randomdoc_model_input/sepsis_model_ramdom_doctor_clickseq.pkl'
 
 
 if __name__ == '__main__':

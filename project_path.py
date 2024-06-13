@@ -1,1 +1,2 @@
-pro_path = '/home/ddcui/VD-MedAI/'
+pro_path = '/home/ddcui/VC-MedAI/'
+

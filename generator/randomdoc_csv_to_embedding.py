@@ -1,16 +1,17 @@
 import sys
-sys.path.append('/home/ddcui/doctor/')
+from project_path import pro_path
+sys.path.append(pro_path)
 import pandas as pd
 import re
 import ast
 import numpy as np
 import pickle
-from src.data_process.embedding.demoinfo_embedding import demoinfo_embedding
-from src.data_process.embedding.tsfresh_embedding import tsfresh_embedding
-from src.data_process.embedding.biobert_embedding import biobert_embedding
-from src.data_process.embedding.xray_embedding import multi_chest_xray_embeddings, single_chest_xray_embeddings
+from simulator.data_process.embedding.demoinfo_embedding import demoinfo_embedding
+from simulator.data_process.embedding.tsfresh_embedding import tsfresh_embedding
+from simulator.data_process.embedding.biobert_embedding import biobert_embedding
+from simulator.data_process.embedding.xray_embedding import multi_chest_xray_embeddings, single_chest_xray_embeddings
 import os
-from src.utils.utils_io_pkl import read_patient_emb
+from simulator.utils.utils_io_pkl import read_patient_emb
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 import concurrent.futures
@@ -522,13 +523,13 @@ def write_pkl(fn):
         results = list(executor.map(process_row, row_list))
 
 #由于初步诊断模型中，患者降维没有设置随机数，无法复原，所以患者只能用模型输入特征中降维之后的数据了
+#Since the first diagnostic model has no random numbers set for patient dimensionality reduction, it cannot be recovered, so the patient will have to use the data after dimensionality reduction in the model's input features.
 
 
 if __name__ == '__main__':
     root = '/home/ddcui/doctor/datasets/csv_and_pkl/'
 
     data = root +'data_randomdoc.csv'
-
 
     write_pkl(data)
 

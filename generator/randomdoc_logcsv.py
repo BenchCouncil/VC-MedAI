@@ -1,21 +1,24 @@
 import sys
-sys.path.append('/home/ddcui/doctor')
+from project_path import pro_path
+sys.path.append(pro_path)
 import pandas as pd
 import numpy as np
-from src.random_doc.randomdoc_num import random_doc_list
+from randomdoc_num import random_doc_list
 import os
 import csv
 import uuid
 import re
 import ast
 import copy
-from src.random_doc.get_patemb_from_model_input import sepsis_patient_first_dict,sepsis_patient_final_dict
+from  get_patemb_from_model_input import sepsis_patient_first_dict,sepsis_patient_final_dict
 
-root = '/home/ddcui/doctor/datasets/initial_data/'
+root = f'{pro_path}datasets/Original-Recorded-Version/'
 
-df_sample = pd.read_csv(root +'样例数据_20231120.csv', encoding='gbk')
+df_sample = pd.read_csv(root +'sample_patient_model.csv', encoding='gbk')
 
-to_file = '/home/ddcui/doctor/datasets/csv_and_pkl/data_randomdoc.csv'
+to_file = f'{pro_path}datasets/csv_and_pkl/data_randomdoc.csv'
+os.makedirs(f'{pro_path}datasets/csv_and_pkl')
+
 
 #给上述患者分给125个医生
 def model_data(text):
