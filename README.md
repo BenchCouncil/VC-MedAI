@@ -1,6 +1,6 @@
 # VC-MedAI(Transforming Clinical Trials in Medicine: The Reshaping Power of Virtual Clinician-Based In-silico Trials for AI)
 
-#一.Data Access
+# 一.Data Access
 
 AI.vs.Clinician database comprises a set of comma-separated value (CSV) files and all related source code. Since the database contains not only the patients’ information from MIMIC databases but also the clinicians’ information from 14 medical centers, users must use the database with caution and respect. The database has been uploaded to PhysioNet35 platform  and is waiting for approval. We also upload the database to the Journal’s online submission system for review. To access the database, the following steps need to be completed:
  
@@ -10,7 +10,7 @@ AI.vs.Clinician database comprises a set of comma-separated value (CSV) files an
 Our project uses the data version "Original-Recorded-Version".
 
 
-#二.VC-MedAI Simulator
+# 二.VC-MedAI Simulator
 
 ## 2.1 Data Embedding
 | No. | Code | Description |
@@ -99,7 +99,7 @@ The final model input data will require the predicted results from model "Patien
 |5|python 5_final_{model}_diagtime.py 'test'|Testing with the generalized model for final diagnosis.|
 
 
-#三.VC-MedAI Generator
+# 三.VC-MedAI Generator
 | No. | Code | Description |
 | ------- | ------- | ------- |
 |1|cd generator/|Change directory.|
