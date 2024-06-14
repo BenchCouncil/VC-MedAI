@@ -110,6 +110,7 @@ The final model input data will require the predicted results from model "Patien
 |4|python randomdoc_csv_to_embedding.py |Patient information embedding(including imaging jpg using TorchXRayVision, imaging reports using BioBERT, and temporal examinations using TSFresh). |
 |5|python randomdoc_sepsis_nextact_predict.py |Predicting the advanced item ratio for patients using virtual clinician. The predicted results will be loaded into the final model input.|
 |6|python randomdoc_first_final_embedding.py |Generating model input data. (Including Virtual Clinician, Model and Patient information.)|
+| |cd generator/ramdomdoc_analyze/ |Switch Path.|
 |7|python randomdoc_constant.py |Choose VC-MedAI Simulator model between Specialized 0h, Generalized 0h, or Generalized 3h. |
 |8|python main_diag_randomdoc.py |Output the number of samples, the diagnosis accuracy of virtual clinician. |
 |9|python main_diag_truedoc.py |Output the number of samples, the diagnosis accuracy of human clinician.|
