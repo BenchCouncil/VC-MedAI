@@ -131,7 +131,7 @@ def get_first_diag_time(df_sys_log_id,df_doctor_diag_id):
         endtime = pd.to_datetime(convert_datatime(df.iloc[0]['time_text']))
     else:
         endtime = pd.to_datetime(convert_datatime(df_diag_last.iloc[0]['time_text']))
-    df_sys_log_id = df_convert_datatime(df_sys_log_id, 'create_time')
+
     df_sys_log_id.loc[:, 'create_time'] = pd.to_datetime(df_sys_log_id['create_time'])
     df_sys_log_id = df_sys_log_id[df_sys_log_id['create_time'] > endtime-pd.Timedelta(hours=1)]
     df_sys_log_id = df_sys_log_id[df_sys_log_id['module'] != '注销登录']
