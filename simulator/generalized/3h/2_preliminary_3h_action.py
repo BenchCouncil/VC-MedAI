@@ -46,7 +46,7 @@ def predict():
 
 
 def add_next_act():
-    root = '/home/ddcui/virtual-doctor/'
+    root = pro_path
     df = pd.read_csv(root + 'datasets/csv_and_pkl/data_0321_7000.csv', encoding='gbk')
     _, _, best_model = best_auc_model(root + f'model_save/{model_sort}_model/', flag, model)  # 模型名字最后一个acc
     df_new = pd.DataFrame(columns=df.columns)
@@ -96,7 +96,7 @@ def objective(trial,train_x,train_y,val_x,val_y,test_x,test_y,model_path,kforder
     print(f'----kforder:{kforder}--测试集上的效果评估----')
     acc,auc = multu_class_eval(test_y, model.predict_proba(test_x))
     global best_acc
-    if acc > 68.2:
+    if acc > best_acc:
         print('测试集acc升高，保存模型')
         xgb_save_model(model, model_path=model_path + f'auc_{auc}_acc_{acc}.dat')
         best_acc = acc
@@ -109,7 +109,7 @@ flag = 'first'
 feature_dimnum = 17
 model = 'nextact'
 n_trials = 5000
-root = '/home/ddcui/virtual-doctor/'
+root = pro_path
 fn_pkl = root + f'datasets/{model_sort}_model_input/{flag}_data_7000_dim_{feature_dimnum}.pkl'
 _,best_acc,_ = best_auc_model(root + f'model_save/{model_sort}_model/',flag,model) #模型名字最后一个acc
 #------------------------
@@ -119,6 +119,7 @@ kflod_em, kflod_label, test_em, test_label = data_split(data,flag, model)
 skf = KFold(n_splits=5, shuffle=True, random_state=42)
 kflod_label = np.array([int(num * 8) for num in kflod_label])
 test_label = np.array([int(num * 8) for num in test_label])
+
 
 if __name__ == '__main__':
     param = sys.argv[1]

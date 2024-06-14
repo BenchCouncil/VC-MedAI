@@ -8,7 +8,7 @@ import numpy as np
 import pickle
 from simulator.data_process.embedding import demoinfo_embedding
 from simulator.data_process.embedding import tsfresh_embedding
-from simulator.data_process.embedding import biobert_embedding
+from simulator.data_process.embedding import biobert_embe
 from simulator.data_process.embedding.xray_embedding import multi_chest_xray_embeddings, single_chest_xray_embeddings
 import os
 from simulator.utils.utils_io_pkl import read_patient_emb
@@ -414,11 +414,9 @@ def row_to_embedding(row):
     else:
         final_xray_dense_emb, final_xray_predict_emb = single_chest_xray_embeddings(list(final_jpg_dict.keys())[0])
 
-    first_note_emb = biobert_embedding(list(first_note_dict.keys()), list(first_note_dict.values()))
-    final_note_emb = biobert_embedding(list(final_note_dict.keys()), list(final_note_dict.values()))
+    first_note_emb = biobert_embe(list(first_note_dict.keys()), list(first_note_dict.values()))
+    final_note_emb = biobert_embe(list(final_note_dict.keys()), list(final_note_dict.values()))
 
-    # df_model_embeddings_fusion = pd.DataFrame(model_emb.reshape(1,-1), columns=['model_'+str(i) for i in range(model_emb.shape[0])])
-    # df_doctor_embeddings_fusion = pd.DataFrame(doctor_emb.reshape(1,-1), columns=['doctor_'+str(i) for i in range(doctor_emb.shape[0])])
     df_demoinfo_embeddings_fusion = pd.DataFrame(demoinfo_emb.reshape(1, -1),
                                                  columns=['demoinfo_' + str(i) for i in range(demoinfo_emb.shape[0])])
     df_first_ts_embeddings_fusion = pd.DataFrame(first_time_series.values.reshape(1, -1),

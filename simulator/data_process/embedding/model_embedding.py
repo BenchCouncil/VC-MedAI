@@ -199,9 +199,3 @@ def model_embedding(row,sepsis_or_normal):
 
     return np.array(embedding)
 
-
-
-
-
-if __name__ == '__main__':
-    a = model_embedding('','sepsis')

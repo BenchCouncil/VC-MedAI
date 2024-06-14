@@ -35,8 +35,5 @@ def demoinfo_embedding(row):
     return np.array([gender,age,ma_status,ethnic])
 
 
-if __name__ == '__main__':
-
-    print()
 
 

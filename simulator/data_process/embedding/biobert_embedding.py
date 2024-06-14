@@ -50,7 +50,7 @@ def split_note_document(text, min_length=15):
     return chunk_parse, chunk_length
 
 #event_weights 按照 检查时间距离 入院时间的 间隔（小时为单位）
-def biobert_embedding(full_events_list, event_weights):
+def biobert_embe(full_events_list, event_weights):
     event_weights_exp = []
     for idx, event_string in enumerate(full_events_list):
         weight = event_weights[idx]
@@ -72,16 +72,3 @@ def biobert_embedding(full_events_list, event_weights):
 
     return aggregated_embedding
 
-
-if __name__ == '__main__':
-    text1 = '胸部前后位摄影 (AP CHEST FILM), 于凌晨2点12分进行。临床指征: 新安置的鼻胃管 (nasogastric tube) ，评估其位置。与患者前一次于17:05进行的影像对照。凌晨2点12分进行的便携式直立位胸部前后位摄影。'
-    text2 = '一周前心肌梗死，慢性阻塞性肺疾病。有中心静脉插管和气管插管。印象:与12:41 a.m.比较，AP胸片:新术后气管插管管尖端位于锁骨上缘，与气管分叉至少7厘米，并应进一步推进3厘米以确保更加稳定。'
-
-    text = [text1,text2]
-
-    #检查时间距离入院时间的时间间隔列表，按小时计算
-    detaladmittime = [2,3]
-
-    aggregated_embedding = biobert_embedding(text,detaladmittime)
-    aggregated_embedding = aggregated_embedding.reshape(1,-1)
-    print(aggregated_embedding.shape)

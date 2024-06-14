@@ -79,11 +79,10 @@ def objective(trial,train_x,train_y,val_x,val_y,test_x,test_y,model_path,kforder
     diag_eval(val_y, model.predict(val_x),model.predict_proba(val_x)[:, 1])
     print(f'----kforder:{kforder}--测试集上的效果评估----')
     acc,auc = diag_eval(test_y, model.predict(test_x),model.predict_proba(test_x)[:, 1])
-    sen_spe_diff,sen,spe = get_diff_senspe(test_y, model.predict(test_x))
     global best_auc,best_acc
-    if acc >=79 or auc>84.5 :
+    if auc>best_auc :
         print('测试集AUC提升，保存模型')
-        xgb_save_model(model, model_path=model_path + f'sen_{sen}_spe_{spe}_acc_{acc}_auc_{auc}.dat')
+        xgb_save_model(model, model_path=model_path + f'acc_{acc}_auc_{auc}.dat')
         best_auc = auc
         best_acc = acc
     return auc
@@ -94,7 +93,7 @@ flag = 'final'
 feature_dimnum = 36
 model = 'diag'
 n_trials = 10000
-root = '/home/ddcui/virtual-doctor/'
+root = pro_path
 fn_pkl = root + f'datasets/{model_sort}_model_input/{flag}_data_7000_dim_{feature_dimnum}.pkl'
 _, best_auc, _ = best_auc_model(root + f'model_save/{model_sort}_model/', flag, model)
 best_acc = 0

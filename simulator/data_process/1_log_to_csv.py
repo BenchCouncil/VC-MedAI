@@ -9,6 +9,8 @@ import csv
 pd.options.mode.chained_assignment = None
 import csv
 import uuid
+from simulator.utils.utils_dataloader import convert_datatime,df_convert_datatime
+
 
 # 准备虚拟医生模型的训练数据
 exec_hist_dict = {
@@ -93,32 +95,7 @@ def get_final_diag(df_doctor_diag_id):
     final_diag = df_doctor_diag_id.iloc[0]['final_diag']
     return str(first_diag).strip(),str(final_diag).strip()
 
-#At that time the year was processed to exceed the maximum year in mimic
-#The dict is meant to be able to be converted to datatime, and the original year exceeds the datatime's maximum value
-diag_to_datatime_dict= {
-    '2500-':'2000-',
-    '2501-':'2001-',
-    '2502-':'2002-',
-    '2503-': '2003-',
-    '2504-': '2004-',
-    '2505-': '2005-'
-}
-def convert_datatime(text):
-    text_after = None
-    for key in diag_to_datatime_dict.keys():
-        if key in text:
-            text_after = str(text).replace(key,diag_to_datatime_dict.get(key))
-            return text_after
-    return text_after
 
-def df_convert_datatime(df,rowname):
-    for index,row in df.iterrows():
-        text = row[rowname]
-        for key in diag_to_datatime_dict.keys():
-            if key in text:
-                text_after = str(text).replace(key,diag_to_datatime_dict.get(key))
-                df.at[index,rowname] = text_after
-    return df
 
 #②获取医生最终诊断的时间
 def get_diag_time(df_sys_log_id,df_doctor_diag_id):
@@ -135,10 +112,7 @@ def get_diag_time(df_sys_log_id,df_doctor_diag_id):
 
     #按照分钟算
     time_diff = (int(endtime.timestamp()) - int(starttime.timestamp()))/60
-    # if time_diff < 1 or time_diff > 20:
-    #     print(df_sys_log_id[['module','create_time']])
-    #     print(df_doctor_diag_id['time_text'])
-    #     print(f'！！诊断时间可能异常： {time_diff}分钟')
+
     return round(time_diff,2)
 
 #②获取医生诊断的时间
@@ -157,6 +131,7 @@ def get_first_diag_time(df_sys_log_id,df_doctor_diag_id):
         endtime = pd.to_datetime(convert_datatime(df.iloc[0]['time_text']))
     else:
         endtime = pd.to_datetime(convert_datatime(df_diag_last.iloc[0]['time_text']))
+    df_sys_log_id = df_convert_datatime(df_sys_log_id, 'create_time')
     df_sys_log_id.loc[:, 'create_time'] = pd.to_datetime(df_sys_log_id['create_time'])
     df_sys_log_id = df_sys_log_id[df_sys_log_id['create_time'] > endtime-pd.Timedelta(hours=1)]
     df_sys_log_id = df_sys_log_id[df_sys_log_id['module'] != '注销登录']
@@ -167,10 +142,7 @@ def get_first_diag_time(df_sys_log_id,df_doctor_diag_id):
 
     #按照分钟算
     time_diff = (int(endtime.timestamp()) - int(starttime.timestamp()))/60
-    # if time_diff < 1 or time_diff > 20:
-    #     print(df_sys_log_id[['module','create_time']])
-    #     print(df_doctor_diag_id['time_text'])
-    #     print(f'！！诊断时间可能异常： {time_diff}分钟')
+
     return round(time_diff,2)
 
 def diag_sequence(df_doctor_diag, doc_pat_id):

@@ -79,12 +79,11 @@ def objective(trial,train_x,train_y,val_x,val_y,test_x,test_y,model_path,kforder
     diag_eval(val_y, model.predict(val_x),model.predict_proba(val_x)[:, 1])
     print(f'----kforder:{kforder}--测试集上的效果评估----')
     acc,auc = diag_eval(test_y, model.predict(test_x),model.predict_proba(test_x)[:, 1])
-    sen_spe_diff,sen,spe = get_diff_senspe(test_y, model.predict(test_x))
 
     global best_auc,best_acc
-    if acc> 79.5 or auc > best_auc:
+    if auc > best_auc:
         print('测试集AUC提升，保存模型')
-        xgb_save_model(model, model_path=model_path + f'sen_{sen}_spe_{spe}_acc_{acc}_auc_{auc}.dat')
+        xgb_save_model(model, model_path=model_path + f'acc_{acc}_auc_{auc}.dat')
         best_auc = auc
     
     return auc
@@ -95,7 +94,7 @@ flag = 'final'
 feature_dimnum = 18
 model = 'diag'
 n_trials = 10000
-root = '/home/ddcui/virtual-doctor/'
+root = pro_path
 fn_pkl = root + f'datasets/{model_sort}_model_input/{flag}_data_7000_dim_{feature_dimnum}.pkl'
 _, best_auc, _ = best_auc_model(root + f'model_save/{model_sort}_model/', flag, model)
 best_acc = 0
@@ -104,6 +103,7 @@ best_acc = 0
 data = Data(fn=fn_pkl, flag=flag)
 kflod_em, kflod_label, test_em, test_label = data_split(data,flag, model)
 skf = KFold(n_splits=5, shuffle=True, random_state=42)
+
 #random_state=42
 if __name__ == '__main__':
     param = sys.argv[1]

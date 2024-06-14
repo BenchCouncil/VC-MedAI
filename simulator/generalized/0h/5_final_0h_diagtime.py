@@ -62,8 +62,6 @@ def objective(trial,train_x,train_y,val_x,val_y,test_x,test_y,model_path,kforder
         'min_child_weight': trial.suggest_float('min_child_weight', 0.1, 10.0),
         'reg_lambda': trial.suggest_float('reg_lambda', 0, 1),
         'reg_alpha': trial.suggest_float('reg_alpha', 0, 1),
-        # 'scale_pos_weight': trial.suggest_float('scale_pos_weight', 0.1, 1.0),
-        # 'max_delta_step': trial.suggest_float('max_delta_step', 0.0, 10.0),  # subsample参数
     }
     model = xgb.XGBRegressor(
         objective='reg:squarederror',
@@ -102,7 +100,7 @@ flag = 'final'
 feature_dimnum = 18
 model = 'diagtime'
 n_trials = 10000
-root = '/home/ddcui/virtual-doctor/'
+root = pro_path
 fn_pkl = root + f'datasets/{model_sort}_model_input/{flag}_data_7000_dim_{feature_dimnum}.pkl'
 _, lowest_mae, _ = lowest_rmse_model(root + f'model_save/{model_sort}_model/', flag, model)
 #------------------------

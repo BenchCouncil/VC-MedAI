@@ -46,7 +46,7 @@ def predict():
 
 
 def add_next_act():
-    root = '/home/ddcui/virtual-doctor/'
+    root = pro_path
     df = pd.read_csv(root + 'datasets/csv_and_pkl/data_0321_7000.csv', encoding='gbk')
     _, _, best_model = best_auc_model(root + f'model_save/{model_sort}_model/', flag, model)  # 模型名字最后一个acc
     df_new = pd.DataFrame(columns=df.columns)
@@ -109,7 +109,7 @@ flag = 'first'
 feature_dimnum = 17
 model = 'nextact'
 n_trials = 5000
-root = '/home/ddcui/virtual-doctor/'
+root = pro_path
 fn_pkl = root + f'datasets/{model_sort}_model_input/{flag}_data_7000_dim_{feature_dimnum}.pkl'
 _,best_acc,_ = best_auc_model(root + f'model_save/{model_sort}_model/',flag,model) #模型名字最后一个acc
 #------------------------

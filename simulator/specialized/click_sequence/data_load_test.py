@@ -143,7 +143,3 @@ def train_test_load(resample):
 
     return X_train_augmented,Y_train_augmented,Y_train_uuid_augmented,X_test, Y_test,Y_test_uuid,value_to_index
 
-
-if __name__ == '__main__':
-
-    print()

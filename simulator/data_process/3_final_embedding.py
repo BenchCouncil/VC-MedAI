@@ -101,7 +101,6 @@ def final_embedding(df, dict_patient_embeddings, model_sort, topath,feature_numd
         if model_sort == 'sepsis':  # 保留患者信息
             patient_embedding = dict_patient_embeddings.get(patinet_id)
             if patient_embedding is None:
-                print('--------------------------')
                 continue
 
             predict_action = 0

@@ -121,7 +121,3 @@ def single_chest_xray_embeddings(img_path):
 
     return densefeature_embeddings, prediction_embeddings
 
-if __name__ == '__main__':
-
-
-    print()

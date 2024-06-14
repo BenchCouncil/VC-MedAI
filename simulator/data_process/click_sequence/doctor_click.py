@@ -1,5 +1,8 @@
 import pandas as pd
 import math
+import sys
+from project_path import pro_path
+from simulator.utils.utils_dataloader import convert_datatime,df_convert_datatime
 
 
 #历史基础信息 既往病史和现病史  历史检查信息   下一步检查信息
@@ -50,7 +53,7 @@ def get_checktype(s):
     else:
         return None
 
-path = '/home/ddcui/virtual-doctor/datasets/Original-Recorded-Version/'
+path = f'{pro_path}datasets/Original-Recorded-Version/'
 df_syslog = pd.read_csv(path+'sys_log.csv',usecols=['accountname','patient_id','module','exception','create_time'],encoding='gbk')
 df_syslog['exam_type'] = df_syslog['exception'].apply(lambda x: get_checktype(str(x)))
 # df_syslog = df_syslog[df_syslog['exam_type'] != '降钙素原']#系统界面中 历史检查没有降钙素原
@@ -62,6 +65,7 @@ del df_syslog['exception']
 df_nextcheck = pd.read_csv(path+'patient_check.csv',usecols=['doctor_id','patient_id','exam_type','time_text'],encoding='gbk')
 df_nextcheck['module'] = '下一步检查'
 df = pd.concat([df_syslog,df_nextcheck])
+df = df_convert_datatime(df, 'time_text')
 df['time_text'] = pd.to_datetime(df['time_text'])
 df_group = df.groupby(['doctor_id', 'patient_id'])
 

@@ -97,12 +97,6 @@ def diag_eval(test_diag, y_pred, y_pred_prob):
     print(f'acc {accuracy},auc {auc}')
     return round(accuracy * 100, 2), round(auc * 100, 2)
 
-def get_diff_senspe(test_diag, y_pred):
-    tn, fp, fn, tp = confusion_matrix(test_diag, y_pred).ravel()
-    sensitivity = tp / (tp + fn)
-    specificity = tn / (tn + fp)
-    diff = abs(sensitivity-specificity)
-    return round(diff,2),sensitivity,specificity
 
 
 def rmse_eval(true_values, predicted_values):

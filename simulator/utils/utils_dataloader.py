@@ -523,5 +523,31 @@ def data_split(data,flag, model):
 
 
 
-if __name__ == '__main__':
-    print()
+#At that time the year was processed to exceed the maximum year in mimic
+#The dict is meant to be able to be converted to datatime, and the original year exceeds the datatime's maximum value
+diag_to_datatime_dict= {
+    '2500-':'2000-',
+    '2501-':'2001-',
+    '2502-':'2002-',
+    '2503-': '2003-',
+    '2504-': '2004-',
+    '2505-': '2005-'
+}
+def convert_datatime(text):
+    text_after = None
+    for key in diag_to_datatime_dict.keys():
+        if key in text:
+            text_after = str(text).replace(key,diag_to_datatime_dict.get(key))
+            return text_after
+    return text_after
+
+def df_convert_datatime(df,rowname):
+    for index,row in df.iterrows():
+        text = row[rowname]
+        for key in diag_to_datatime_dict.keys():
+            if key in text:
+                text_after = str(text).replace(key,diag_to_datatime_dict.get(key))
+                df.at[index,rowname] = text_after
+    return df
+
+

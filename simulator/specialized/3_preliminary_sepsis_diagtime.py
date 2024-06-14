@@ -64,8 +64,6 @@ def objective(trial,train_x,train_y,val_x,val_y,test_x,test_y,model_path,kforder
         'min_child_weight': trial.suggest_float('min_child_weight', 0.1, 10.0),
         'reg_lambda': trial.suggest_float('reg_lambda', 0, 1),
         'reg_alpha': trial.suggest_float('reg_alpha', 0, 1),
-        # 'scale_pos_weight': trial.suggest_float('scale_pos_weight', 0.1, 1.0),
-        # 'max_delta_step': trial.suggest_float('max_delta_step', 0.0, 10.0),  # subsample参数
     }
     model = xgb.XGBRegressor(
         objective='reg:squarederror',
@@ -91,7 +89,6 @@ def objective(trial,train_x,train_y,val_x,val_y,test_x,test_y,model_path,kforder
     global lowest_mae
     if mae < lowest_mae:
         print('测试集mae降低，保存模型')
-        # xgb_save_model(simulator, model_path=model_path + f'mae_{mae}.dat')
         xgb_save_model(model, model_path=model_path + f'mae_{mae_after}.dat')
 
         lowest_mae = mae
@@ -104,7 +101,7 @@ flag = 'first'
 feature_dimnum = 35
 model = 'diagtime'
 n_trials = 5000
-root = '/home/ddcui/virtual-doctor/'
+root = pro_path
 fn_pkl = root + f'datasets/{model_sort}_model_input/{flag}_data_7000_dim_{feature_dimnum}.pkl'
 _, lowest_mae, _ = lowest_rmse_model(root + f'model_save/{model_sort}_model/', flag, model)
 #------------------------
@@ -114,8 +111,6 @@ kflod_em, kflod_label, test_em, test_label = data_split(data,flag, model)
 skf = KFold(n_splits=5, shuffle=True, random_state=42)
 
 
-#调整：筛除了诊断时间不合理的情况 出现原因：由于诊断时间包含了修改诊断的时间。正常情况下诊断和修改诊断的操作是连续的，但可能存在过了几天重新修改诊断的情况，导致有些诊断时间异常
-# mae占均值的xxx% 占标准差的xxx%，rmse会放大误差，mae会平等对待所有误差
 
 if __name__ == '__main__':
     param = sys.argv[1]

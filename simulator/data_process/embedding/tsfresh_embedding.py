@@ -68,19 +68,3 @@ def extract_features_haim(df_pivot):
     df_out = df_out.fillna(value=0)
     return df_out
 
-# fc_parameters一共有多少种参数
-    # feature_functions = [attr for attr in dir(feature_extraction.feature_calculators) if callable(getattr(feature_extraction.feature_calculators, attr))]
-    # print(feature_functions)
-#下面的已经弃用，特征按照haim的选的特征抽取
-    # extracted_features = extract_features(df, column_id="UNIQUE_ID", column_sort="时间",default_fc_parameters=fc_parameters)
-    # extracted_features = impute(extracted_features)
-    # print(extracted_features)
-    #Transform extracted features from 0-1 HAIM代码中使用了下面的部分，但是很长的项目名那个项目没使用，测试了一下使用后的结果差异性小，暂不使用
-    # click_sequence = QuantileTransformer().fit(extracted_features)
-    # norm_extracted_features = click_sequence.transform(extracted_features)
-    # norm_extracted_features = np.asarray(norm_extracted_features)
-
-
-if __name__ == '__main__':
-    print()
-
