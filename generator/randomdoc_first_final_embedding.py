@@ -117,21 +117,14 @@ def model_final_input_emb(model_sort,flag,feature_numdim,pca_dim,clickseq):
 
 
 if __name__ == '__main__':
-    # 专用模型，初步还是最终(first,final)，最终模型的维度都加1 下一步特征
-    # start_time = time.time()
-    # model_final_input_emb('sepsis','first',35,17,False)  #第三个参数总维度（模型+患者+医生），第四个维度是患者信息降到多少维度 35=pat:17dim+ doc:8dim+model:10dim
-    # end_time = time.time()
-    # elapsed_minutes = (end_time - start_time) / 60
-    # print(f"初步诊断的特征嵌入 程序运行时间: {elapsed_minutes:.2f} 分钟，也就是{(end_time - start_time)}秒")
+    # Specialized In-silico Trials preliminary and final embedding
+    model_final_input_emb('sepsis','first',35,17,False)  #第三个参数总维度（模型+患者+医生），第四个维度是患者信息降到多少维度 35=pat:17dim+ doc:8dim+model:10dim
+    model_final_input_emb('sepsis','final',36,17,False) #when choose 'final'，need to run randomdoc_sepsis_nextact_predict.py firstly
 
-    # start_time = time.time()
-    # model_final_input_emb('sepsis','final',36,17,False) #when choose 'final'，need to run randomdoc_sepsis_nextact_predict.py firstly
-    # end_time = time.time()
-    # elapsed_minutes = (end_time - start_time) / 60
-    # print(f"最终诊断的特征嵌入 程序运行时间: {elapsed_minutes:.2f} 分钟，也就是{(end_time - start_time)}秒")
-
+    # Generalized 0h and 3h In-silico Trials preliminary embedding
     model_final_input_emb('normal_0h', 'first', 17, None, False)
     model_final_input_emb('normal_3h', 'first', 17, None, False)
 
-    # model_final_input_emb('normal_0h', 'final', 18, None, False)
-    # model_final_input_emb('normal_3h', 'final', 18, None, False)#when choose 'final'，need to run main_normal_nextact_randomdoc.py firstly
+    # Generalized 0h and 3h In-silico Trials final embedding
+    model_final_input_emb('normal_0h', 'final', 18, None, False)#when choose 'final'，need to run main_normal_nextact_randomdoc.py firstly, and randomdoc_constant.py choose generalized 0h.
+    model_final_input_emb('normal_3h', 'final', 18, None, False)#when choose 'final'，need to run main_normal_nextact_randomdoc.py firstly, and randomdoc_constant.py choose generalized 3h.
