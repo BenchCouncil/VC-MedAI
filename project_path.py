@@ -1,2 +1,2 @@
-pro_path = '/home/ddcui/VC-MedAI/'
-biobert_path = '/home/ddcui/Bio_ClinicalBERT/'
+pro_path = '/home/ddcui/VC-MedAI/' #Modify to your current project path
+biobert_path = '/home/ddcui/Bio_ClinicalBERT/' # Modify to your current bio_clinicalbert path

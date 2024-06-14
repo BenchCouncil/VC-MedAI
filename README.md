@@ -16,12 +16,12 @@ Our project uses the data version "Original-Recorded-Version".
 | No. | Code | Description |
 | ------- | ------- | ------- |
 |1|requirements.txt|Install environment.|
-|2|download cxr jpg.|[CxrJpg_download link](https://www.physionet.org/content/mimic-cxr-jpg/2.0.0/)|
-|3|download pre-training model.|[BioBert download link](https://huggingface.co/emilyalsentzer/Bio_ClinicalBERT/tree/main) | 
-|4|download original records from hospitals data.|[Original records from hospitals download link](https://drive.google.com/drive/folders/1FgkrmJ4rMx4UkInYiW5-V52ivMGcUNiZ?usp=drive_link) |
-|5|cd simulator/data_process/|Change directory.|
-|6|python 1_log_to_csv.py|Parsing the clinicians's diagnosis logs.|
-|7|python csv_to_embedding.py|Patient information embedding(including imaging jpg using TorchXRayVision, imaging reports using BioBERT, and temporal examinations using TSFresh).|
+|2|project_path.py|Modify to current project path.|
+|3|download cxr jpg.|[CxrJpg_download link](https://www.physionet.org/content/mimic-cxr-jpg/2.0.0/)|
+|4|download pre-training model.|[BioBert download link](https://huggingface.co/emilyalsentzer/Bio_ClinicalBERT/tree/main) | 
+|6|cd simulator/data_process/|Change directory.|
+|7|python 1_log_to_csv.py|Parsing the clinicians's diagnosis logs.|
+|8|python csv_to_embedding.py|Patient information embedding(including imaging jpg using TorchXRayVision, imaging reports using BioBERT, and temporal examinations using TSFresh).|
 
 
 ## 2.2 The Specialized In-Silico Trials for Sepsis
