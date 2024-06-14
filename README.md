@@ -1,16 +1,18 @@
 # VC-MedAI---Transforming Clinical Trials in Medicine: The Reshaping Power of Virtual Clinician-Based In-silico Trials for AI
 
-# 一.Data Access
+# 1.Data Access
 
-AI.vs.Clinician database comprises a set of comma-separated value (CSV) files and all related source code. Since the database contains not only the patients’ information from MIMIC databases but also the clinicians’ information from 14 medical centers, users must use the database with caution and respect. The database has been uploaded to PhysioNet35 platform  and is waiting for approval. We also upload the database to the Journal’s online submission system for review. To access the database, the following steps need to be completed:
+VC-MedAI is constructed based on AI.vs.Clinician database, which comprises a set of comma-separated value (CSV) files indicating the interactions between AI and clinicians. 
+
+To access the AI.vs.Clinician database, the following steps need to be completed:
  
     • The researchers must complete the access steps required by MIMIC databases.
     • the researchers are required to sign a data use agreement, which delineates acceptable data usage and security protocols and prohibits attempts to identify individual clinicians and patients.
+    • The researchers are required to send an access request to the contributors and provide a description of the research project.
 
 Our project uses the data version "Original-Recorded-Version".
 
-
-# 二.VC-MedAI Simulator
+# 2.VC-MedAI Simulator
 
 ## 2.1 Data Embedding
 | No. | Code | Description |
@@ -24,7 +26,7 @@ Our project uses the data version "Original-Recorded-Version".
 |7|python csv_to_embedding.py|Patient information embedding(including imaging jpg using TorchXRayVision, imaging reports using BioBERT, and temporal examinations using TSFresh).|
 
 
-## 2.2 The Specialized In-Silico Trials for Sepsis
+## 2.2 VC-MedAI Specialized Simulator for Sepsis
 ### 2.2.1 Clinician Click Sequence of Viewed Examination Items Model
 
 | No. | Code | Description |
@@ -56,7 +58,7 @@ The final model input data will require patient advanced item Ratio to be tested
 |8|python 5_final_sepsis_diagtime.py 'test'|Testing with the specialized model for final diagnosis time.|
 
 
-## 2.3 The Generalized Simulator
+## 2.3 VC-MedAI Generalized Simulator for Medicine
 Generalized simulator provides general simulation and has no patient sector.
 
 model = 0h or 3h
@@ -99,7 +101,7 @@ The final model input data will require the predicted results from model "Patien
 |5|python 5_final_{model}_diagtime.py 'test'|Testing with the generalized model for final diagnosis.|
 
 
-# 三.VC-MedAI Generator
+# 三.VC-MedAI Clinician Generator
 | No. | Code | Description |
 | ------- | ------- | ------- |
 |1|cd generator/|Change directory.|
