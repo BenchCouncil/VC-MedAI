@@ -101,7 +101,7 @@ The final model input data will require the predicted results from model "Patien
 |5|python 5_final_{model}_diagtime.py 'test'|Testing with the generalized model for final diagnosis.|
 
 
-# 三.VC-MedAI Clinician Generator
+# 3.VC-MedAI Clinician Generator
 | No. | Code | Description |
 | ------- | ------- | ------- |
 |1|cd generator/|Change directory.|
