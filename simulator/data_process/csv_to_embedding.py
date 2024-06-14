@@ -6,9 +6,9 @@ import re
 import ast
 import numpy as np
 import pickle
-from simulator.data_process.embedding import demoinfo_embedding
-from simulator.data_process.embedding import tsfresh_embedding
-from simulator.data_process.embedding import biobert_embe
+from simulator.data_process.embedding.demoinfo_embedding import demoinfo_embedding
+from simulator.data_process.embedding.tsfresh_embedding import tsfresh_embedding
+from simulator.data_process.embedding.biobert_embedding import biobert_embe
 from simulator.data_process.embedding.xray_embedding import multi_chest_xray_embeddings, single_chest_xray_embeddings
 import os
 from simulator.utils.utils_io_pkl import read_patient_emb
