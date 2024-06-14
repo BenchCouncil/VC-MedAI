@@ -77,7 +77,7 @@ if __name__ == '__main__':
     np.random.seed(42)  # 确保随机选择的可重复性
     selected_ids = np.random.choice(doctor_ids, 125-len(doctor_ids), replace=False)
     df_selected = df_result[df_result['医生ID'].isin(list(selected_ids))]
-    df_selected['医生ID'] = df_selected['医生ID'] +200
+    df_selected['医生ID'] = df_selected['医生ID'] + 200
     df_extended = pd.concat([df_result, df_selected])
     df_extended_group = df_extended.groupby(['医生ID'])
     print(f"Total groups after extension: {len(df_extended_group)}")

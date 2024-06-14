@@ -61,11 +61,11 @@ random_doc_list = generate_doctor(125,df)
 
 
 
-def time_of_genrandomdoc():
+def time_of_genrandomdoc(param):
     #统计生成虚拟医生的时间
     start_time = time.time()
 
-    generate_doctor(125, df)
+    generate_doctor(param, df)
 
     end_time = time.time()
     elapsed_time = end_time - start_time
@@ -74,7 +74,9 @@ def time_of_genrandomdoc():
 
 
 if __name__ == '__main__':
-    time_of_genrandomdoc()
+    param = sys.argv[1] # User-defined number of randomised doctors
+
+    time_of_genrandomdoc(param)
 
 
 

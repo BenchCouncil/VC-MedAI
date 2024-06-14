@@ -494,7 +494,7 @@ def write_pkl(fn):
     if os.path.exists(patient_embedding):
         unique_id_list, patient_embedding_list = read_patient_emb(patient_embedding)
         df = df[~df['UNIQUE_ID'].isin(unique_id_list)]
-    print(f'The number of patients to be embedded is{len(df)}')
+    print(f'The number of patients to be embedded is {len(df)}')
 
     rows = list(df.iterrows())
     row_list = [(index, row) for index, row in rows]

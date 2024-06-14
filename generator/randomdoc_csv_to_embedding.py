@@ -8,7 +8,7 @@ import numpy as np
 import pickle
 from simulator.data_process.embedding.demoinfo_embedding import demoinfo_embedding
 from simulator.data_process.embedding.tsfresh_embedding import tsfresh_embedding
-from simulator.data_process.embedding.biobert_embedding import biobert_embedding
+from simulator.data_process.embedding.biobert_embedding import biobert_embe
 from simulator.data_process.embedding.xray_embedding import multi_chest_xray_embeddings, single_chest_xray_embeddings
 import os
 from simulator.utils.utils_io_pkl import read_patient_emb
@@ -378,8 +378,6 @@ def row_to_timeseries(row):
 
 def row_to_embedding(row):
     # 由于模型信息和 医生信息很重要，所以先不嵌入，等患者信息降维后再嵌入
-    # model_emb = model_embedding(row)
-    # doctor_emb = doctor_embeddimg(row)
     demoinfo_emb = demoinfo_embedding(row)
     df_first_time_series, df_final_time_series = row_to_timeseries(row)
     first_note_dict, final_note_dict = row_to_notes(row)
@@ -404,11 +402,9 @@ def row_to_embedding(row):
     else:
         final_xray_dense_emb, final_xray_predict_emb = single_chest_xray_embeddings(list(final_jpg_dict.keys())[0])
 
-    first_note_emb = biobert_embedding(list(first_note_dict.keys()), list(first_note_dict.values()))
-    final_note_emb = biobert_embedding(list(final_note_dict.keys()), list(final_note_dict.values()))
+    first_note_emb = biobert_embe(list(first_note_dict.keys()), list(first_note_dict.values()))
+    final_note_emb = biobert_embe(list(final_note_dict.keys()), list(final_note_dict.values()))
 
-    # df_model_embeddings_fusion = pd.DataFrame(model_emb.reshape(1,-1), columns=['model_'+str(i) for i in range(model_emb.shape[0])])
-    # df_doctor_embeddings_fusion = pd.DataFrame(doctor_emb.reshape(1,-1), columns=['doctor_'+str(i) for i in range(doctor_emb.shape[0])])
     df_demoinfo_embeddings_fusion = pd.DataFrame(demoinfo_emb.reshape(1, -1),
                                                  columns=['demoinfo_' + str(i) for i in range(demoinfo_emb.shape[0])])
     df_first_ts_embeddings_fusion = pd.DataFrame(first_time_series.values.reshape(1, -1),
@@ -454,8 +450,6 @@ def row_to_embedding(row):
     df_fusion_final = df_haim_ids_fusion
 
     # 初步模型
-    # df_fusion = pd.concat([df_fusion, df_model_embeddings_fusion], axis=1)
-    # df_fusion = pd.concat([df_fusion, df_doctor_embeddings_fusion], axis=1)
     df_fusion_first = pd.concat([df_fusion_first, df_demoinfo_embeddings_fusion], axis=1)
     df_fusion_first = pd.concat([df_fusion_first, df_first_ts_embeddings_fusion], axis=1)
     df_fusion_first = pd.concat([df_fusion_first, df_first_xray_dense_embe_fusion], axis=1)
@@ -463,8 +457,7 @@ def row_to_embedding(row):
     df_fusion_first = pd.concat([df_fusion_first, df_first_note_embeddings_fusion], axis=1)
 
     # 最终模型
-    # df_fusion = pd.concat([df_fusion, df_model_embeddings_fusion], axis=1)
-    # df_fusion = pd.concat([df_fusion, df_doctor_embeddings_fusion], axis=1)
+
     df_fusion_final = pd.concat([df_fusion_final, df_demoinfo_embeddings_fusion], axis=1)
     df_fusion_final = pd.concat([df_fusion_final, df_final_ts_embeddings_fusion], axis=1)
     df_fusion_final = pd.concat([df_fusion_final, df_final_xray_dense_embe_fusion], axis=1)
