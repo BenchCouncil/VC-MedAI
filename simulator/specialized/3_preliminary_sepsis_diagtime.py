@@ -31,12 +31,11 @@ def predict():
             X_train, X_val = kflod_em[train_index], kflod_em[val_index]
             y_train, y_val = kflod_label[train_index], kflod_label[val_index]
 
-            print(f'kflod is {best_kflod}，the lowest rmse {lowest_rmse}')
             print('-----Evaluation on the train set-----')
             rmse_eval(y_train, best_model.predict(X_train))
             print('-----Evaluation on the val set-----')
             rmse_eval(y_val, best_model.predict(X_val))
-            print('-----Evaluation on the test set-----')
+            print(f'----Evaluation on the test set(Label is range)-----')
             test_label_range = diagtime_label_to_range(test_label,best_model.predict(test_em), 0.2)
             rmse_eval(test_label_range, best_model.predict(test_em))
 
@@ -72,8 +71,9 @@ def objective(trial,train_x,train_y,val_x,val_y,test_x,test_y,model_path,kforder
     rmse_eval(train_y, model.predict(train_x))
     print(f'----kforder:{kforder}-Evaluation on the val set-----')
     rmse_eval(val_y, model.predict(val_x))
-    rmse,mae = rmse_eval(test_y, model.predict(test_x))
     print(f'-----kforder:{kforder}--Evaluation on the test set-----')
+    rmse,mae = rmse_eval(test_y, model.predict(test_x))
+    print(f'-----kforder:{kforder}--Evaluation on the test set(Label is range)-----')
     test_y_range = diagtime_label_to_range(test_y, model.predict(test_em), 0.2)
     _, mae_after = rmse_eval(test_y_range, model.predict(test_em))
     global lowest_mae

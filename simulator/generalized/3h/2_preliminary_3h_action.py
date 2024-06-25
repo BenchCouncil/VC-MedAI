@@ -12,8 +12,7 @@ def train():
     kforder = 0
     for train_index, val_index in skf.split(kflod_em, kflod_label):
         kforder += 1
-        # if kforder < 3:
-        #     continue
+
         X_train, X_val = kflod_em[train_index], kflod_em[val_index]
         y_train, y_val = kflod_label[train_index], kflod_label[val_index]
 
@@ -34,14 +33,12 @@ def predict():
             X_train, X_val = kflod_em[train_index], kflod_em[val_index]
             y_train, y_val = kflod_label[train_index], kflod_label[val_index]
 
-            print('-----训练集上的效果评估-----')
+            print('-----Evaluation on the train set-----')
             multu_class_eval(y_train, best_model.predict_proba(X_train))
-            print('-----验证集上的效果评估-----')
+            print('-----Evaluation on the val set-----')
             multu_class_eval(y_val, best_model.predict_proba(X_val))
-            print('-----测试集上的效果评估-----')
+            print('-----Evaluation on the test set-----')
             multu_class_eval(test_label, best_model.predict_proba(test_em))
-            print('-----最优模型的参数-------')
-            print(best_model.get_params())
         kforder += 1
 
 
@@ -89,21 +86,21 @@ def objective(trial,train_x,train_y,val_x,val_y,test_x,test_y,model_path,kforder
     )
 
     model.fit(train_x,train_y,eval_set=[(val_x,val_y)],verbose=False)
-    print(f'----kforder:{kforder}-训练集上的效果评估-----')
+    print(f'----kforder:{kforder}-Evaluation on the train set-----')
     multu_class_eval(train_y, model.predict_proba(train_x))
-    print(f'----kforder:{kforder}-验证集上的效果评估-----')
+    print(f'----kforder:{kforder}-Evaluation on the val set-----')
     multu_class_eval(val_y, model.predict_proba(val_x))
-    print(f'----kforder:{kforder}--测试集上的效果评估----')
+    print(f'----kforder:{kforder}--Evaluation on the test set----')
     acc,auc = multu_class_eval(test_y, model.predict_proba(test_x))
     global best_acc
     if acc > best_acc:
-        print('测试集acc升高，保存模型')
+        print('sace model')
         xgb_save_model(model, model_path=model_path + f'auc_{auc}_acc_{acc}.dat')
         best_acc = acc
     return acc
 
 
-#-------全局参数-----------
+#-------global parameter-----------
 model_sort = 'normal_3h'
 flag = 'first'
 feature_dimnum = 17

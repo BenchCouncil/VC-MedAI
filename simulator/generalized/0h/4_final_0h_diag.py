@@ -35,18 +35,13 @@ def predict():
             X_train, X_val = kflod_em[train_index], kflod_em[val_index]
             y_train, y_val = kflod_label[train_index], kflod_label[val_index]
 
-            print(f'kflod为{best_kflod}，最高的auc {best_auc}')
-            print('-----训练集上的效果评估-----')
+            print(f'kflod is {best_kflod}，the highest auc {best_auc}')
+            print('-----Evaluation on the train set-----')
             diag_eval(y_train, best_model.predict(X_train),best_model.predict_proba(X_train)[:, 1])
-            print('-----验证集上的效果评估-----')
+            print('-----Evaluation on the val set-----')
             diag_eval(y_val, best_model.predict(X_val),best_model.predict_proba(X_val)[:, 1])
-            print('-----测试集上的效果评估-----')
+            print('-----Evaluation on the test set-----')
             diag_eval(test_label, best_model.predict(test_em),best_model.predict_proba(test_em)[:, 1])
-            print('-----前20个患者的label和预测结果对比-----')
-            print(test_label[:20])
-            print(best_model.predict(test_em)[:20])
-            print('-----最优模型的参数-------')
-            print(best_model.get_params())
         kforder += 1
 
 def objective(trial,train_x,train_y,val_x,val_y,test_x,test_y,model_path,kforder):
@@ -77,22 +72,22 @@ def objective(trial,train_x,train_y,val_x,val_y,test_x,test_y,model_path,kforder
 
     model.fit(train_x,train_y,eval_set=[(val_x,val_y)],verbose=False)
     # feature_important(simulator)
-    print(f'----kforder:{kforder}-训练集上的效果评估-----')
+    print(f'----kforder:{kforder}-Evaluation on the train set-----')
     diag_eval(train_y, model.predict(train_x),model.predict_proba(train_x)[:, 1])
-    print(f'----kforder:{kforder}-验证集上的效果评估-----')
+    print(f'----kforder:{kforder}-Evaluation on the val set-----')
     diag_eval(val_y, model.predict(val_x),model.predict_proba(val_x)[:, 1])
-    print(f'----kforder:{kforder}--测试集上的效果评估----')
+    print(f'----kforder:{kforder}--Evaluation on the test set----')
     acc,auc = diag_eval(test_y, model.predict(test_x),model.predict_proba(test_x)[:, 1])
     
 
     global best_auc,best_acc
     if auc>best_auc :
-        print('测试集AUC提升，保存模型')
+        print('save model')
         xgb_save_model(model, model_path=model_path + f'acc_{acc}_auc_{auc}.dat')
         best_auc = auc
     return auc
 
-#-------全局参数-----------
+#-------global parameter-----------
 model_sort = 'normal_0h'
 flag = 'final'
 feature_dimnum = 18
