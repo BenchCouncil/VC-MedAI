@@ -1,12 +1,12 @@
 from project_path import *
 
 
-#------模型参数---------
-d_model = 256   # 字 Embedding 的维度
-d_ff = 1024     # 前向传播隐藏层维度
-d_k = d_v = 64  # K(=Q), V的维度
-n_layers = 6    # 有多少个encoder和decoder
-n_heads = 8     # Multi-Head Attention设置为8
+#------model parameter---------
+d_model = 256   # The dimension of the word Embedding
+d_ff = 1024     # Forward propagation hidden layer dimension
+d_k = d_v = 64  # K(=Q), V dimensions
+n_layers = 6    # Number of encoders and decoders
+n_heads = 8     # Multi-Head Attention is 8
 
 
 
@@ -18,9 +18,9 @@ test_model_name = 'model_set_acc_0.81_truedoc_seqlen_5.2_predict_seqlen_5.77.pth
 
 
 device = 'cuda:0'
-tgt_vocab_size = 21     # 目标字典尺寸
-src_vocab_size = 12239  # 字典字的个数
-tgt_len = 21+2  #label的最大长度
+tgt_vocab_size = 21     # Target dictionary size
+src_vocab_size = 12239  # Number of dictionary words
+tgt_len = 21+2  #Maximum length of label
 
 train_resample = 10 #when training is 10
 test_resample = 1

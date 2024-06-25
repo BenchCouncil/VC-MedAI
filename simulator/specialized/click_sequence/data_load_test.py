@@ -9,12 +9,10 @@ from simulator.utils.utils_dataloader import *
 def remove_serial_dupl(lst):
     if not lst:
         return []
-
-    result = [lst[0]]  # 将第一个元素加入结果列表
+    result = [lst[0]]  
     for i in range(1, len(lst)):
-        if lst[i] != lst[i - 1]:  # 如果当前元素与前一个元素不相同，则加入结果列表
+        if lst[i] != lst[i - 1]:
             result.append(lst[i])
-
     return result
 
 def get_batch_indices(total_length, batch_size):
@@ -60,7 +58,6 @@ def train_test_load(resample):
     embedding_after0 = []
     click_seq_after0 = []
     uuid_after0 = []
-
     for emb, click,uuid in zip(data.embedding, data.click_seq,data.uuid):
         click = remove_serial_dupl(click)
         # if len(click) <= 21 and len(click)>=1: #因为分层采样有的不够 所以小于21
@@ -73,7 +70,6 @@ def train_test_load(resample):
     data.click_seq = click_seq_after0
     data.uuid = uuid_after0
 
-
     max_length = max(len(seq) for seq in data.click_seq)
     print(f'max_length {max_length}')
     Y_np = np.zeros((len(data.click_seq), max_length+2), dtype=int)
@@ -82,7 +78,6 @@ def train_test_load(resample):
         Y_np[i, :len(seq_n)] = np.array(seq_n, dtype=int)
 
     data.click_seq = Y_np
-
     non_zero_counts = np.count_nonzero(data.click_seq, axis=1)
     keep_indices = ~np.isin(non_zero_counts, [28,29,32,33])
     non_zero_counts_after = non_zero_counts[keep_indices]
@@ -108,9 +103,9 @@ def train_test_load(resample):
     unique_counts, counts = np.unique(non_zero_counts_after, return_counts=True)
     sparse_classes = unique_counts[counts < 2]
     if len(sparse_classes) > 0:
-        print("样本数量不足的类别：", sparse_classes)
+        print("Categories with insufficient sample size：", sparse_classes)
     else:
-        print("所有类别的样本数量都足够")
+        print("Sample size is sufficient for all categories")
 
     sss_train_test = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
     for train_index, test_index in sss_train_test.split(data.embedding, non_zero_counts_after):
@@ -119,7 +114,7 @@ def train_test_load(resample):
         Y_train_uuid, Y_test_uuid = data.uuid[train_index], data.uuid[test_index]
 
 
-    # 将训练集数据复制多份并与原始训练集数据合并
+    # Make multiple copies of the training set data and merge it with the original training set data
     X_train_augmented = np.copy(X_train)
     Y_train_augmented = np.copy(Y_train)
     Y_train_uuid_augmented = np.copy(Y_train_uuid)
@@ -132,7 +127,7 @@ def train_test_load(resample):
         Y_train_augmented = np.concatenate([Y_train_augmented, Y_train_copy], axis=0)
         Y_train_uuid_augmented = np.concatenate([Y_train_uuid_augmented, Y_train_uuid_copy], axis=0)
 
-    # 对扩增后的训练集进行随机打乱
+    # Random disruption of the augmented training set
     shuffle_indices = np.random.permutation(len(X_train_augmented))
     X_train_augmented = X_train_augmented[shuffle_indices]
     Y_train_augmented = Y_train_augmented[shuffle_indices]

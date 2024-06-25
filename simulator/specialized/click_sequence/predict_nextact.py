@@ -3,12 +3,12 @@ from project_path import pro_path
 sys.path.append(pro_path)
 from simulator.specialized.click_sequence.transformer import Transformer
 import warnings
-# 忽略特定类型的警告
 warnings.filterwarnings("ignore")
 import os
 from simulator.specialized.click_sequence.trs_constant import *
-from simulator.utils.utils_dataloader import *
 from simulator.specialized.click_sequence.data_load_test import *
+import torch
+
 
 def get_dec_input(model, enc_input, start_symbol):
     enc_outputs, enc_self_attns = model.Encoder(enc_input)
@@ -103,7 +103,7 @@ if __name__ == '__main__':
         predicted_uuid_list, _ = read_nextact_pkl(nextact_topath)
     else:
         predicted_uuid_list = None
-    #预测下一步检查百分比
+    #Predicting the percentage for the next check
     data_new = preprocess_emb()
     add_nextact(data_new,predicted_uuid_list)
 

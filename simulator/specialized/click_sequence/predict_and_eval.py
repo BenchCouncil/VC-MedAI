@@ -4,7 +4,6 @@ sys.path.append(pro_path)
 from transformer import Transformer
 from nltk.translate.bleu_score import sentence_bleu,SmoothingFunction
 import warnings
-# 忽略特定类型的警告
 warnings.filterwarnings("ignore")
 from rouge_metric import PyRouge
 from simulator.specialized.click_sequence.trs_constant import *
@@ -37,15 +36,14 @@ def get_output(predict,dec_output,flag):
     label_str_list = [idx2word[n.item()] for n in non_zero_dec_output]
     predict_str_list = [idx2word[n.item()] for n in non_zero_predict]
     if flag == 'test':
-        print(f'真实点击序列：{label_str_list}')
-        print(f'预测点击序列：{predict_str_list}')
+        print(f'human clinician click sequence：{label_str_list}')
+        print(f'predict click sequence：{predict_str_list}')
     return label_str_list,predict_str_list
 
 
 def eval_metrics(label_str_list, predict_str_list):
     result_dict = {}
 
-    # 集合准确率、真实医生点击序列平均长度、预测的序列平均长度
     set_acc_list = []
     true_doc_seqlist = []
     vir_doc_seqlist = []
@@ -134,8 +132,8 @@ def eval_of_train(model,enc_inputs,dec_outputs,epoch):
     bleu4 = result_dict.get('bleu4_balance')
     truedoc_seqlen = result_dict.get('真实医生点击序列平均长度')
     virdoc_seqlen = result_dict.get('预测点击序列平均长度')
-    print(f'----训练过程中-epoch:{epoch+1}------------')
-    print(f'测试集预测效果{result_dict}')
+    print(f'----training-epoch:{epoch+1}------------')
+    print(f'test evaluation:{result_dict}')
     return rouge_2_f,rouge_l_f,rouge_w_f,rouge_s_f,set_acc,bleu4,truedoc_seqlen,virdoc_seqlen
 
 
@@ -161,7 +159,7 @@ if __name__ == '__main__':
         len_predict_list = []
         index = 1
         for enc_input,dec_output,uuid in zip(enc_inputs,dec_outputs,uuids):
-            print(f'-----样本 {uuid}-----')
+            print(f'-----uuid {uuid}-----')
             index += 1
             predict_dec_input = get_dec_input(model, enc_input.view(1, -1), start_symbol=tgt_vocab["S"])
             predict, _, _, _ = model(enc_input.view(1, -1), predict_dec_input)

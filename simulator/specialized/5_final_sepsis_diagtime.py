@@ -31,25 +31,14 @@ def predict():
             X_train, X_val = kflod_em[train_index], kflod_em[val_index]
             y_train, y_val = kflod_label[train_index], kflod_label[val_index]
 
-            print(f'kflod为{best_kflod}，最优指标 {lowest_rmse}')
-            print('-----训练集上的效果评估-----')
+            print(f'kflod is {best_kflod}，best indicator {lowest_rmse}')
+            print(' -----Evaluation on the train set-----')
             rmse_eval(y_train, best_model.predict(X_train))
-            print('-----验证集上的效果评估-----')
+            print(' -----Evaluation on the val set-----')
             rmse_eval(y_val, best_model.predict(X_val))
-            print('-----测试集上的效果评估-----')
-            rmse_eval(test_label, best_model.predict(test_em))
-
-            print('-----测试集 Label改成20%范围之后的效果评估-----')
+            print(' -----Evaluation on the test set-----')
             test_label_range = diagtime_label_to_range(test_label, best_model.predict(test_em), 0.2)
             rmse_eval(test_label_range,best_model.predict(test_em))
-
-            comparison_df = pd.DataFrame({
-                'Label Diagnosis Time': test_label[:100],
-                'Predicted Diagnosis Time': best_model.predict(test_em)[:100]
-            })
-            print('-----患者的label和预测结果对比-----')
-            print(comparison_df)
-
         kforder += 1
 
 
@@ -78,36 +67,25 @@ def objective(trial,train_x,train_y,val_x,val_y,test_x,test_y,model_path,kforder
 
     model.fit(train_x,train_y,eval_set=[(val_x,val_y)],early_stopping_rounds=50,verbose=False)
     # feature_important(simulator)
-    print(f'----kforder:{kforder}-训练集上的效果评估-----')
+    print(f'----kforder:{kforder}-Evaluation on the train set-----')
     rmse_eval(train_y, model.predict(train_x))
-    print(f'----kforder:{kforder}-验证集上的效果评估-----')
+    print(f'----kforder:{kforder}-Evaluation on the val set-----')
     rmse_eval(val_y, model.predict(val_x))
-    print(f'----kforder:{kforder}--测试集上的效果评估----')
     rmse,mae = rmse_eval(test_y, model.predict(test_x))
-    print(f'-----kforder:{kforder}--测试集 Label改成20%范围之后的效果评估-----')
+    print(f'----kforder:{kforder}--Evaluation on the test set----')
     test_y_range = diagtime_label_to_range(test_y, model.predict(test_em), 0.2)
     _, mae_after = rmse_eval(test_y_range, model.predict(test_em))
     global lowest_mae
     if mae < lowest_mae:
-        print('保存模型')
+        print('save model')
         xgb_save_model(model, model_path=model_path + f'mae_{mae_after}.dat')
 
         lowest_mae = mae
     return mae
 
 
-# Huber loss的自定义目标函数
-def huber_approx_obj(preds, dtrain):
-    d = preds - dtrain.get_label()  # 计算差值
-    h = 1  # 阈值，可以根据需要进行调整
-    scale = 1 + (d / h) ** 2
-    scale_sqrt = np.sqrt(scale)
-    grad = d / scale_sqrt
-    hess = 1 / scale / scale_sqrt
-    return grad, hess
 
-
-#-------全局参数-----------
+#-------global parameter-----------
 model_sort = 'sepsis'
 flag = 'final'
 feature_dimnum = 36

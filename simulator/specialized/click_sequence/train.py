@@ -14,7 +14,7 @@ from simulator.specialized.click_sequence.data_load_test import *
 
 
 def custom_loss(predict, label):
-    criterion = nn.CrossEntropyLoss(ignore_index=0)  # 忽略 占位符 索引为0.
+    criterion = nn.CrossEntropyLoss(ignore_index=0)
     content_loss = criterion(predict, label)
     predict_after = torch.argmax(predict, dim=1)
 
@@ -67,7 +67,7 @@ if __name__ == "__main__":
             optimizer.step()
             print('Epoch:', '%04d' % (epoch + 1), 'loss =', '{:.6f}'.format(loss))
 
-        #每个epoch进行test评估
+        #per epoch test evaluation
         starttime = datetime.datetime.now()
         rouge_2_f,rouge_l_f,rouge_w_f,rouge_s_f,set_acc,bleu4,truedoc_seqlen,virdoc_seqlen = eval_of_train(model, test_enc_inputs, test_dec_outputs,epoch)
         endtime = datetime.datetime.now()
