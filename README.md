@@ -1,8 +1,8 @@
-# VC-MedAI---Transforming Clinical Trials in Medicine: The Reshaping Power of Virtual Clinician-Based In-silico Trials for AI
+# VC-MedAI---Establishing Rigorous and Cost-effective Clinical Trials for AI in Medicine
 
-# 1.Data Access
+# 1. Data Access to AI.vs.Clinician and MIMIC databases.
 
-VC-MedAI is constructed based on AI.vs.Clinician database, which comprises a set of comma-separated value (CSV) files indicating the interactions between AI and clinicians. 
+VC-MedAI is constructed based on AI.vs.Clinician, which comprises a set of comma-separated value (CSV) files indicating the interactions between AI and clinicians. 
 
 To access the AI.vs.Clinician database, the following steps need to be completed:
  
@@ -10,7 +10,35 @@ To access the AI.vs.Clinician database, the following steps need to be completed
     • the researchers are required to sign a data use agreement, which delineates acceptable data usage and security protocols and prohibits attempts to identify individual clinicians and patients.
     • The researchers are required to send an access request to the contributors and provide a description of the research project.
 
-Our project uses the data version "Original-Recorded-Version".
+Our project uses the data version "Original-Recorded-Version" within AI.vs.Clinician database. The patient cohort uses MIMIC databases.
+
+1.PhysioNet Account
+
+First, apply for an account on the PhysioNet platform. Then, proceed to take the CITI PROGRAM exam and obtain the exam report. With the exam report in hand, you can apply for database usage permission on the MIMIC official website.
+
+After completing the aforementioned steps, you can download the relevant MIMIC datasets.
+
+Notice: To access AI.vs.Clinician database, one more step is needed: send an access request to the contributors and provide a description of the research project.
+
+2.AI.vs.Clinician Database
+
+AI.vs.Clinician is a large and human-centered database that comprises information related to the behavior variations of clinicians’ diagnosis with or without the assistance of different AI models.
+
+3.MIMIC-III 1.4 Database
+
+MIMIC-III is a large-scale clinical intensive care database that is freely available and openly shared. The data covers the period from 2001 to 2012.
+
+4.MIMIC-IV 2.2 Database
+
+MIMIC-IV is an updated version of MIMIC-III, with data covering the period from 2008 to 2019.
+
+5.MIMIC-CXR-JPG 2.0.0 Database
+
+The MIMIC-CXR-JPG database is a collection of chest X-ray images in JPG format, corresponding to patients in the MIMIC-IV dataset.
+
+6.MIMIC-IV-NOTE 2.2 Database
+
+The MIMIC-IV-Note primarily consists of discharge summaries and imaging text reports for patients in the MIMIC-IV dataset.
 
 # 2.VC-MedAI Simulator
 
