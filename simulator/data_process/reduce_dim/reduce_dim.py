@@ -1,7 +1,5 @@
 from sklearn.decomposition import PCA
 import pandas as pd
-from sklearn.decomposition import KernelPCA
-from sklearn.manifold import LocallyLinearEmbedding
 import numpy as np
 
 def pca(dim_num,train_embedding_list):
