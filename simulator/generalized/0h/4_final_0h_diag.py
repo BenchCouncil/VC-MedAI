@@ -9,9 +9,6 @@ from simulator.utils.utils_io_model import *
 def train():
     kforder = 1
     for train_index, val_index in skf.split(kflod_em, kflod_label):
-        if kforder < 4:
-            kforder += 1
-            continue
 
         X_train, X_val = kflod_em[train_index], kflod_em[val_index]
         y_train, y_val = kflod_label[train_index], kflod_label[val_index]
