@@ -64,7 +64,7 @@ The MIMIC-IV-Note primarily consists of discharge summaries and imaging text rep
 |3|cd simulator/specialized/click_sequence/|Change directory.|
 |5|python train.py|Model training.|
 |6|python predict_and_eval.py|Model evaluation and prediction.|
-|7|python predict_nextact.py|Predicting the percentage for the next check.The predicted results will be loaded into the final model input|
+|7|python predict_nextact.py|Predicting the percentage for the next check.The predicted results will be loaded into the final model input.|
 
 
 ### 2.2.2 Clinician Diagnosis and Diagnosis Time Models (Preliminary and Final)
