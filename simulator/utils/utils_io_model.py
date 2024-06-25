@@ -32,7 +32,6 @@ def xgb_save_model(gs, model_path):
     pickle.dump(gs, open(model_path, "wb"))
 
 
-# 加载模型
 def xgb_load_model(model_path):
     loaded_model = pickle.load(open(model_path, "rb"))
     return loaded_model
@@ -80,15 +79,12 @@ def lowest_rmse_model(folder_path, flag, model):
     best_model = xgb_load_model(os.path.join(folder_path, best_filname))
     return best_kflod, lowest_rmse, best_model
 
-#模型的评价指标都是最后一个值
 def extract_eval(text):
     numbers = re.findall(r'-?\d+(?:\.\d+)?', text)
     if len(numbers) > 0:
         return float(numbers[-1])
     else:
         return None
-
-
 
 def diag_eval(test_diag, y_pred, y_pred_prob):
     accuracy = round(accuracy_score(test_diag, y_pred), 4)
@@ -97,8 +93,6 @@ def diag_eval(test_diag, y_pred, y_pred_prob):
     print(f'acc {accuracy},auc {auc}')
     return round(accuracy * 100, 2), round(auc * 100, 2)
 
-
-
 def rmse_eval(true_values, predicted_values):
     rmse = np.sqrt(mean_squared_error(true_values, predicted_values))
     mae = mean_absolute_error(true_values, predicted_values)
@@ -106,8 +100,7 @@ def rmse_eval(true_values, predicted_values):
     print(f'Label的均值:{round(np.mean(true_values), 4)}，Label的标准差{round(np.std(true_values), 4)}，MAE: {round(mae, 4)}，RMSE: {round(rmse, 4)}')
     return round(rmse, 4),round(mae, 4)
 
-#由于label和预测值直接算mae的时候，mae的大小是均值的36%左右，效果不好
-#调整方法：将label转成范围，（label-label*20%）~（label+label*20%），选择两端中和预测值最近的时间
+#label become range:（label-label*20%）~（label+label*20%）
 def diagtime_label_to_range(true_values, predicted_values,threshold):
     label_values = []
 
@@ -128,38 +121,17 @@ def diagtime_label_to_range(true_values, predicted_values,threshold):
 def multu_class_eval(true_values,predicted_values):
     y_pred = np.argmax(predicted_values, axis=1)
     acc = metrics.accuracy_score(true_values, y_pred)
-    matrix = metrics.confusion_matrix(true_values, y_pred)
     auc_ovo = roc_auc_score(true_values, predicted_values, multi_class='ovo')
     auc_ovr = roc_auc_score(true_values, predicted_values, multi_class='ovr')
-
     print(f'acc: {round(acc,4)} , auc_ovo: {round(auc_ovo,4)} , auc_ovr: {round(auc_ovr,4)}')
-    # print(f'混淆矩阵如下：')
-    # print(matrix)
-    # class_names = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]
-    # # 计算每个类别的准确率
-    # num_classes = len(matrix)
-    # class_accuracies = {}
-    # for i in range(num_classes):
-    #     true_positive = matrix[i, i]
-    #     false_positive = sum(matrix[:, i]) - true_positive
-    #     class_accuracy = true_positive / (true_positive + false_positive)
-    #     class_accuracies[class_names[i]] = class_accuracy
-    #
-    # print("Class Accuracies:")
-    # for class_name, accuracy in class_accuracies.items():
-    #     print(f"{class_name}: {accuracy}")
     return round(acc*100,2),round(auc_ovo*100,2)
 
 
 
 def feature_important(model):
     feature_importance = model.feature_importances_
-
-    # 打印每个特征的重要性
     for i, importance in enumerate(feature_importance):
         print(f"Feature {i + 1}: {importance}")
-
-    # 可视化特征重要性
     plt.figure(figsize=(10, 6))
     plt.bar(range(len(feature_importance)), feature_importance, tick_label=f"Feature {i + 1}")
     plt.title('Feature Importance')
@@ -176,26 +148,6 @@ def get_modelparams(xgb_model):
         print(f"{param_name}: {param_value}")
 
 
-def chickseq_eval(outputs,labels):
-    label_mask = (labels[:, :, 0] != -4).float()  # 使用第一个类别的填充值进行标签掩码
-    masked_outputs = outputs * label_mask.unsqueeze(2)
-    labels_outputs = labels * label_mask.unsqueeze(2)
-
-    distance_total = 0
-    for i in range(labels_outputs.shape[0]):
-        predict = masked_outputs[i]
-        label = labels_outputs[i]
-        print(predict)
-        predict_list = [torch.argmax(row).item() for row in predict if torch.max(row) != 0]
-        label_list = [j for i, row in enumerate(label) for j, val in enumerate(row) if val == 1]
-        distance = Levenshtein.distance(predict_list, label_list)
-        distance_total = distance_total + distance
-        print('---------------------------')
-        print(predict_list)
-        print(label_list)
-    distance_aver = distance_total/labels_outputs.shape[0]
-    print(f'平均编辑距离 {round(distance_aver,2)}')
-
 def tensor_tolist(outputs,labels):
     label_mask = (labels[:, :, 0] != -4).float()  # 使用第一个类别的填充值进行标签掩码
     masked_outputs = outputs * label_mask.unsqueeze(2)
@@ -209,18 +161,15 @@ def tensor_tolist(outputs,labels):
         label_list = [j for i, row in enumerate(label) for j, val in enumerate(row) if val == 1]
         label_lists.append(label_list)
         predict_lists.append(predict_list)
-
     return torch.tensor(predict_lists),torch.tensor(label_lists)
 
 
 def diagtime_label_to_range_statis(true_values, threshold):
-
     low_values = []
     high_values = []
     for true in true_values:
         low_value = max(true - true * threshold,0)
         high_value = true + true * threshold
-
         low_values.append(low_value)
         high_values.append(high_value)
     return low_values,high_values
