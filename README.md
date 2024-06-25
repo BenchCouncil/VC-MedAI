@@ -97,8 +97,8 @@ The final model input data will require the predicted results from model "Patien
 |3|cd simulator/generalized/{model}/|Change directory.|
 |4|python 4_final_{model}_diag.py 'train'|Training with the generalized model for final diagnosis.|
 |4|python 4_final_{model}_diag.py 'test'|Testing with the generalized model for final diagnosis.|
-|5|python 5_final_{model}_diagtime.py 'train'|Training with the generalized model for final diagnosis.|
-|5|python 5_final_{model}_diagtime.py 'test'|Testing with the generalized model for final diagnosis.|
+|5|python 5_final_{model}_diagtime.py 'train'|Training with the generalized model for final diagnosis time.|
+|5|python 5_final_{model}_diagtime.py 'test'|Testing with the generalized model for final diagnosis time.|
 
 
 # 3.VC-MedAI Clinician Generator
