@@ -6,7 +6,6 @@ import random
 import time
 
 
-#增加随机种子
 random.seed(123)
 
 def random_value_by_prob(df, column_name):
@@ -35,7 +34,7 @@ def generate_doctor(num,df):
 
     for title in title_num_dict.keys():
         num_kind = title_num_dict.get(title)
-        # print(f'医生职级为 {title}，人数为{num_kind}')
+
         for i in range(num_kind):
             df_t = df[df['doctor_title'] == title]
             group_unit = random_value_by_prob(df_t, 'doctor_unit')
@@ -62,7 +61,7 @@ random_doc_list = generate_doctor(125,df)
 
 
 def time_of_genrandomdoc(param):
-    #统计生成虚拟医生的时间
+    # Statistics on the time taken to generate virtual doctors
     start_time = time.time()
 
     generate_doctor(param, df)
@@ -70,7 +69,7 @@ def time_of_genrandomdoc(param):
     end_time = time.time()
     elapsed_time = end_time - start_time
     elapsed_minutes = elapsed_time / 60
-    print(f"程序运行时间: {elapsed_minutes:.2f} 分钟，也就是{elapsed_time}秒")
+    print(f"programme runtime: {elapsed_minutes:.2f} minutes，that is {elapsed_time}seconds ")
 
 
 if __name__ == '__main__':

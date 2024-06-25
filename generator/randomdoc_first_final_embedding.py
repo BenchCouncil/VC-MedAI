@@ -36,23 +36,22 @@ def first_embedding(df,dict_patient_embeddings,model_sort,topath,feature_numdim,
         model_emb = model_embedding(row, model_sort)
         doctor_emb = np.array([row['diag_order'],row['virdoc_unit'],row['virdoc_sex'],row['virdoc_age'],row['virdoc_year'],row['virdoc_title'],row['virdoc_field'],row['virdoc_depart']])
 
-        if model_sort == 'sepsis':#保留患者信息
+        if model_sort == 'sepsis':#Retention of patient information
             patient_embedding = dict_patient_embeddings.get(patinet_id)
             if patient_embedding is None:
-                print('-----没有患者信息---------------------')
                 continue
             cat_embedding = np.concatenate((doctor_emb, model_emb, patient_embedding), axis=0) #np.array(patient_embedding).flatten()
             if len(cat_embedding) != feature_numdim:
-                print('模型特征总数不对')
+                print('Incorrect total number of model features')
             else:
                 data_to_save = (uuid, patinet_id,cat_embedding, None, None, None)
                 with open(topath, 'ab') as file:
                     pickle.dump(data_to_save, file)
-        else:#普适模型 不保留患者信息
+        else:#Pervasive model No patient information retained
 
             cat_embedding = np.concatenate((doctor_emb, model_emb), axis=0)
             if len(cat_embedding) != feature_numdim:
-                print('模型特征总数不对')
+                print('Incorrect total number of model features')
             data_to_save = (uuid, patinet_id, cat_embedding,None, None, None)
             with open(topath, 'ab') as file:
                 pickle.dump(data_to_save, file)
@@ -67,22 +66,21 @@ def final_embedding(df, dict_patient_embeddings, model_sort, topath,feature_numd
         doctor_emb = np.array([row['diag_order'],row['virdoc_unit'],row['virdoc_sex'],row['virdoc_age'],row['virdoc_year'],row['virdoc_title'],row['virdoc_field'],row['virdoc_depart']])
         predict_action = get_randomdoc_nextact_by_uuid(uuid, uuid_list, nextact_list)
 
-        if model_sort == 'sepsis':  # 保留患者信息
+        if model_sort == 'sepsis':
             patient_embedding = dict_patient_embeddings.get(patinet_id)
             if patient_embedding is None:
-                print('-----没有患者信息---------------------')
                 continue
             cat_embedding = np.concatenate((doctor_emb, model_emb, patient_embedding, [predict_action]), axis=0)
             if len(cat_embedding) != feature_numdim:
-                print('模型特征总数不对')
+                print('Incorrect total number of model features')
             data_to_save = (uuid, patinet_id, cat_embedding, None, None)
             with open(topath, 'ab') as file:
                 pickle.dump(data_to_save, file)
-        else:  # 普适模型 不保留患者信息
+        else:
 
             cat_embedding = np.concatenate((doctor_emb, model_emb, [predict_action]), axis=0)
             if len(cat_embedding) != feature_numdim:
-                print('模型特征总数不对')
+                print('Incorrect total number of model features')
             data_to_save = (uuid, patinet_id, cat_embedding, None, None)
             with open(topath, 'ab') as file:
                 pickle.dump(data_to_save, file)

@@ -15,16 +15,12 @@ from  get_patemb_from_model_input import sepsis_patient_first_dict,sepsis_patien
 
 
 
-#给上述患者分给125个医生
 def model_data(text):
-    # text = '''{'LSTM_AUC85': '脓毒症', 'LSTM_AUC85_IsVisible': 'No', 'LSTM_AUC85_Predict_Time': '预测脓毒症概率0h:0.711,3h:1.0'}'''
-    # ① 模型类型 模型可见 模型结果  模型概率_0h  模型概率_3h
     if str(text) == 'nan':
         return None, None, None, None, None
     if 'TREWScore' in str(text):
         text = re.sub(r":(\w+),", r":'\1',", text, count=2)
     data_dict = ast.literal_eval(text)
-    # 获取第一个键及其对应的值
     model_sort = list(data_dict.keys())[0]
     model_pre = data_dict[model_sort]
     second_key = list(data_dict.keys())[1]
@@ -62,7 +58,7 @@ if __name__ == '__main__':
             num_to_add = 60 - len(group)
             rows_to_add = df_sample.sample(n=num_to_add, replace=True).copy()
             rows_to_add['医生ID'] = name
-            # 将补充后的行添加到原组中
+
             group = pd.concat([group, rows_to_add])
             if add_index < 12:
                 add_index = add_index + 1
@@ -73,8 +69,8 @@ if __name__ == '__main__':
 
     df_doctor_group = df_result.groupby(['医生ID'])
     doctor_ids = df_doctor_group.size().index.tolist()
-    # 随机选择25个组
-    np.random.seed(42)  # 确保随机选择的可重复性
+
+    np.random.seed(42)
     selected_ids = np.random.choice(doctor_ids, 125-len(doctor_ids), replace=False)
     df_selected = df_result[df_result['医生ID'].isin(list(selected_ids))]
     df_selected['医生ID'] = df_selected['医生ID'] + 200

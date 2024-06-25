@@ -20,7 +20,6 @@ def convert_diag(text):
     }
     matched_value = None
 
-    # 遍历字典的键
     for key in label_dict:
         if key in text:
             matched_value = label_dict[key]
@@ -51,7 +50,7 @@ def first_embedding(df,dict_patient_embeddings,model_sort,topath,feature_numdim,
 
             cat_embedding = np.concatenate((doctor_emb, model_emb, patient_embedding), axis=0) #np.array(patient_embedding).flatten()
             if len(cat_embedding) != feature_numdim:
-                print('模型特征总数不对')
+                print('Incorrect total number of model features')
 
             if clickseq:
                 doctor_seq_label = get_click_seq(row['doctor_logid'],patinet_id )
@@ -68,7 +67,7 @@ def first_embedding(df,dict_patient_embeddings,model_sort,topath,feature_numdim,
                 continue
             cat_embedding = np.concatenate((doctor_emb, model_emb), axis=0)
             if len(cat_embedding) != feature_numdim:
-                print('模型特征总数不对')
+                print('Incorrect total number of model features')
             data_to_save = (uuid, patinet_id, cat_embedding, first_diag, diag_time, action_label)
             with open(topath, 'ab') as file:
                 pickle.dump(data_to_save, file)
@@ -109,7 +108,7 @@ def final_embedding(df, dict_patient_embeddings, model_sort, topath,feature_numd
                 predict_action = nextact_list[index]
             cat_embedding = np.concatenate((doctor_emb, model_emb, patient_embedding, [predict_action]), axis=0)
             if len(cat_embedding) != feature_numdim:
-                print('模型特征总数不对')
+                print('Incorrect total number of model features')
             data_to_save = (uuid, patinet_id, cat_embedding, final_diag, diag_time)
             with open(topath, 'ab') as file:
                 pickle.dump(data_to_save, file)
@@ -117,7 +116,7 @@ def final_embedding(df, dict_patient_embeddings, model_sort, topath,feature_numd
             predict_action = [row['predict_nextact']]
             cat_embedding = np.concatenate((doctor_emb, model_emb, predict_action), axis=0)
             if len(cat_embedding) != feature_numdim:
-                print('模型特征总数不对')
+                print('Incorrect total number of model features')
             data_to_save = (uuid, patinet_id, cat_embedding,final_diag, diag_time)
             with open(topath, 'ab') as file:
                 pickle.dump(data_to_save, file)

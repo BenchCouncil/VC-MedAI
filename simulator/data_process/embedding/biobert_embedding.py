@@ -2,7 +2,6 @@ from transformers import AutoTokenizer, AutoModel
 import numpy as np
 from project_path import *
 
-#在haggingface上下的预训练模型
 biobert_tokenizer = AutoTokenizer.from_pretrained(biobert_path)
 biobert_model = AutoModel.from_pretrained(biobert_path)
 
@@ -49,7 +48,7 @@ def split_note_document(text, min_length=15):
 
     return chunk_parse, chunk_length
 
-#event_weights 按照 检查时间距离 入院时间的 间隔（小时为单位）
+
 def biobert_embe(full_events_list, event_weights):
     event_weights_exp = []
     for idx, event_string in enumerate(full_events_list):

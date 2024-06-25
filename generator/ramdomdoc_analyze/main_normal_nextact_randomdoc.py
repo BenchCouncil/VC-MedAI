@@ -17,10 +17,10 @@ def get_nextact_model(fn_pkl,flag,model_sort,diag_modelname):
 
     _, best_auc1, model = best_auc_model(model_path, flag, diag_modelname)
     print(f'best_auc1 {best_auc1}')
-    virdoc_nextact = model.predict(data_copy.embedding) #普适模型中nextact模型的label都是整数，因为*8了
+    virdoc_nextact = model.predict(data_copy.embedding) #The labels of the nextact model in the pervasive model are all integers, because *8 up
     virdoc_nextact = np.array([(num/8) for num in virdoc_nextact])
 
-    save_ramdoc_nextact_predict(data_copy.uuid,virdoc_nextact) #为了最终诊断模型和最终时间模型的随机医生预测使用
+    save_ramdoc_nextact_predict(data_copy.uuid,virdoc_nextact) #For the final diagnostic model and the final temporal model stochastic doctor prediction was used
     return  model,data_copy.uuid,data_copy.patient_id,virdoc_nextact
 
 

@@ -29,7 +29,7 @@ def final_train_data(df_doctor_diag, df_syslog_group, df_patient_check_group,df_
     for doc_pat_id in doctor_patient_set:
         doctor_id = doc_pat_id[0]
         patient_id = doc_pat_id[1]
-        # ① 患者信息和模型信息 #患者id 1-6000  当时又复制了一份，id整体加了20000
+        # ① Patient info and model info #patient ids 1-6000 Another copy was made at that time and the ids added 20,000 overall
         if patient_id > 20000:
             patient_id = patient_id - 20000
             df_sample_id = df_sample[df_sample['UNIQUE_ID'] == patient_id]
@@ -40,12 +40,11 @@ def final_train_data(df_doctor_diag, df_syslog_group, df_patient_check_group,df_
         model_sort, model_visible, model_pre, model_prob_0h, model_prob_3h = model_data(
             df_sample_id.iloc[0]['AI模型预测结果'])
 
-        # viewed_his_feat,viewed_curr_feat = viewed_feature(df_syslog_group, df_patient_check_group, doc_pat_id)
-        # ③ 医生诊断的顺序
+        # ③ Order of diagnosis by the doctor
         diag_seq = diag_sequence(df_doctor_diag, doc_pat_id)
-        # ④ 医生诊断结果 医生诊断时间
+        # ④ Doctor's diagnosis Doctor's diagnosis time
         df_doctor_diag_id = df_doctor_diag_group.get_group(doc_pat_id)
-        # ⑤ 医生信息
+        # ⑤ Doctor's Information
         df_docinfo_id = df_docinfo[df_docinfo['doctor_logid'] == doctor_id]
 
         df_sys_log_id = df_syslog_group.get_group(doc_pat_id)
@@ -70,7 +69,7 @@ def final_train_data(df_doctor_diag, df_syslog_group, df_patient_check_group,df_
         print(df_combine)
         print(len(df_combine))
         i = i + 1
-        print(f'总行数 {i}')
+        print(f'Total number of lines {i}')
         if os.path.exists(to_file):
             df_combine.to_csv(to_file, mode='a', index=False, encoding='gbk', header=False, quoting=csv.QUOTE_ALL)
         else:
@@ -79,7 +78,7 @@ def final_train_data(df_doctor_diag, df_syslog_group, df_patient_check_group,df_
 
 
 def view_next_feature(df_patient_check_group,doctor_id,patient_id):
-    #返回下一步检查的查看百分比，一共七项：降钙素原，血常规，动脉血气分析，止凝血，影像检查，病原检查，培养涂片
+    #Return to view percentage of next tests, seven in total
     if (doctor_id,patient_id) in df_patient_check_group.groups.keys():
         df_patient_check = df_patient_check_group.get_group((doctor_id,patient_id))
         exam_type = len(set(df_patient_check['exam_type']))
@@ -140,7 +139,7 @@ def get_first_diag_time(df_sys_log_id,df_doctor_diag_id):
 
     starttime = df_diag_last.iloc[0]['create_time']
 
-    #按照分钟算
+    #By the minute.
     time_diff = (int(endtime.timestamp()) - int(starttime.timestamp()))/60
 
     return round(time_diff,2)
@@ -148,7 +147,6 @@ def get_first_diag_time(df_sys_log_id,df_doctor_diag_id):
 def diag_sequence(df_doctor_diag, doc_pat_id):
     doc_id = doc_pat_id[0]
     pat_id = doc_pat_id[1]
-    # print(doc_id)
 
     df_doctor_diag_perdoc = df_doctor_diag[df_doctor_diag['doctor_id'] == doc_id]
     df_doctor_diag_perdoc = df_doctor_diag_perdoc.drop_duplicates(subset=['doctor_id', 'patient_id'])
@@ -163,14 +161,13 @@ def diag_sequence(df_doctor_diag, doc_pat_id):
 
 
 def model_data(text):
-    # text = '''{'LSTM_AUC85': '脓毒症', 'LSTM_AUC85_IsVisible': 'No', 'LSTM_AUC85_Predict_Time': '预测脓毒症概率0h:0.711,3h:1.0'}'''
-    # ① 模型类型 模型可见 模型结果  模型概率_0h  模型概率_3h
+
     if str(text) == 'nan':
         return None, None, None, None, None
     if 'TREWScore' in str(text):
         text = re.sub(r":(\w+),", r":'\1',", text, count=2)
     data_dict = ast.literal_eval(text)
-    # 获取第一个键及其对应的值
+
     model_sort = list(data_dict.keys())[0]
     model_pre = data_dict[model_sort]
     second_key = list(data_dict.keys())[1]
@@ -222,7 +219,7 @@ def combine_feat(df_sample_id,df_docinfo_id,model_sort, model_visible, model_pre
 
 
 def log_to_csv():
-    #患者id为 1w多的是测试数据
+    #The patient id of 1w+ is test data.
     df_syslog = pd.read_csv(root + 'sys_log.csv',encoding='gbk')
     df_syslog = df_syslog[(df_syslog['patient_id'] <= 6000) | (df_syslog['patient_id'] > 20000)]
 
@@ -239,12 +236,7 @@ def log_to_csv():
     df_syslog_group = df_syslog.groupby(['accountname', 'patient_id'])
     df_patient_check_group = df_patient_check.groupby(['doctor_id', 'patient_id'])
     df_doctor_diag_group = df_doctor_diag.groupby(['doctor_id', 'patient_id'])
-    # ① 验证数量
-    # print(len(df_syslog_group))
-    # print(len(df_patient_check_group))
-    # print(len(df_doctor_diag_group))
 
-    # ②确定完成诊断的医生、患者列表doctor_patient_set，从诊断表中获取，sys_log会多余正常诊断数量，patient_check会少于正常诊断数量
     doctor_patient_set1 = set()
     doctor_patient_set2 = set()
     for index, row_doctor_diag in df_doctor_diag_group:

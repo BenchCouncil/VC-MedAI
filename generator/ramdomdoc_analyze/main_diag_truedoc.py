@@ -16,9 +16,9 @@ def get_diag_model(fn_pkl,flag,model_sort,diag_modelname):
     train_emb, _, test_em, test_label = data_split(data, flag, model_sort)
     test_uuid,test_patient_id, test_label_check = sampling_diag_of_uuid(data)
     if list(test_label) != list(test_label_check):
-        print('测试集的uuid对应错误')
+        print('The uuid of the test set corresponds to the wrong')
     _, best_auc1, model = best_auc_model(model_path, flag, diag_modelname)
-    print('-----检查 测试集上的效果评估-----')
+    print('-----Check Evaluation of effects on the test set-----')
     diag_eval(test_label, model.predict(test_em), model.predict_proba(test_em)[:, 1])
     combined_emb = np.concatenate((train_emb, test_em))
 

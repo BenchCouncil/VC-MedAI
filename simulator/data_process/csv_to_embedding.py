@@ -386,9 +386,7 @@ def row_to_timeseries(row):
 
 
 def row_to_embedding(row):
-    # 由于模型信息和 医生信息很重要，所以先不嵌入，等患者信息降维后再嵌入
-    # model_emb = model_embedding(row)
-    # doctor_emb = doctor_embeddimg(row)
+
     demoinfo_emb = demoinfo_embedding(row)
     df_first_time_series, df_final_time_series = row_to_timeseries(row)
     first_note_dict, final_note_dict = row_to_notes(row)
@@ -461,18 +459,12 @@ def row_to_embedding(row):
     df_fusion_first = df_haim_ids_fusion
     df_fusion_final = df_haim_ids_fusion
 
-    # 初步模型
-    # df_fusion = pd.concat([df_fusion, df_model_embeddings_fusion], axis=1)
-    # df_fusion = pd.concat([df_fusion, df_doctor_embeddings_fusion], axis=1)
     df_fusion_first = pd.concat([df_fusion_first, df_demoinfo_embeddings_fusion], axis=1)
     df_fusion_first = pd.concat([df_fusion_first, df_first_ts_embeddings_fusion], axis=1)
     df_fusion_first = pd.concat([df_fusion_first, df_first_xray_dense_embe_fusion], axis=1)
     df_fusion_first = pd.concat([df_fusion_first, df_first_xray_predict_embed_fusion], axis=1)
     df_fusion_first = pd.concat([df_fusion_first, df_first_note_embeddings_fusion], axis=1)
 
-    # 最终模型
-    # df_fusion = pd.concat([df_fusion, df_model_embeddings_fusion], axis=1)
-    # df_fusion = pd.concat([df_fusion, df_doctor_embeddings_fusion], axis=1)
     df_fusion_final = pd.concat([df_fusion_final, df_demoinfo_embeddings_fusion], axis=1)
     df_fusion_final = pd.concat([df_fusion_final, df_final_ts_embeddings_fusion], axis=1)
     df_fusion_final = pd.concat([df_fusion_final, df_final_xray_dense_embe_fusion], axis=1)
@@ -490,7 +482,7 @@ def write_pkl(fn):
     df = df.drop_duplicates(subset=['UNIQUE_ID'])
 
     patient_embedding = root+'patient_embedding_first.pkl'
-    # 读取患者特征嵌入
+
     if os.path.exists(patient_embedding):
         unique_id_list, patient_embedding_list = read_patient_emb(patient_embedding)
         df = df[~df['UNIQUE_ID'].isin(unique_id_list)]
@@ -525,7 +517,7 @@ def write_pkl(fn):
                 pickle.dump(final_to_save, file)
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-        results = list(executor.map(process_row, row_list))
+        list(executor.map(process_row, row_list))
 
 
 

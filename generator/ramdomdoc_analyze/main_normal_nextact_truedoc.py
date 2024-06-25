@@ -15,9 +15,9 @@ def get_nextact_model(fn_pkl,flag,model_sort,diag_modelname):
     _, _, test_em, test_label = data_split(data, flag, model_sort)
     test_uuid,test_patid, test_label_check = sampling_nextact_of_uuid(data)
     if list(test_label) != list(test_label_check):
-        print('测试集的uuid对应错误')
+        print('The uuid of the test set corresponds to the wrong')
     _, best_auc1, model = best_auc_model(model_path, flag, diag_modelname)
-    print('-----检查 测试集上的效果评估-----')
+    print('-----Check Evaluation of effects on the test set-----')
     test_label = np.array([int(num * 8) for num in test_label])
     multu_class_eval(test_label, model.predict_proba(test_em))
 

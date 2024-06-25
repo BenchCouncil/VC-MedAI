@@ -250,10 +250,7 @@ def row_to_notes(row):
     current_endtime = str(row['START_ENDTIME']).split('~')[1]
     detaltime = pd.to_datetime(current_endtime) - admittime
     hours, _ = divmod(detaltime.total_seconds(), 3600)
-    old_ill_his = ''
-    # if str(row['病史']) != 'nan':
-    #     old_ill_his = row['病史'].replace('\n', ',')
-    #     note_dict[old_ill_his] = hours
+
 
     current_illhis = row['现病史']
     if str(current_illhis) != 'nan':
@@ -477,12 +474,11 @@ def write_pkl(fn):
     first_patient_embedding = root+f'patient_embedding_first_randomdoc.pkl'
     final_patient_embedding = root+f'patient_embedding_final_randomdoc.pkl'
 
-    # 读取患者特征嵌入
     if os.path.exists(final_patient_embedding):
         first_unique_id_list, first_patient_embedding_list = read_patient_emb(first_patient_embedding)
         final_unique_id_list, final_patient_embedding_list = read_patient_emb(final_patient_embedding)
         df = df[~df['UNIQUE_ID'].isin(list(set(first_unique_id_list) & set(final_unique_id_list)))]
-        print(f'待嵌入的患者还有{len(df)}')
+        print(f'Patients to be embedded are {len(df)}')
 
     rows = list(df.iterrows())
     row_list = [(index, row) for index, row in rows]
@@ -490,16 +486,15 @@ def write_pkl(fn):
     def process_row(args):
         index, row = args
         # print(index)
-        print(f'第{index}行 最终诊断和最终诊断时间的正在embedding')
+        print(f'--------{index} row is embedding------')
         unique_id = row['UNIQUE_ID']
 
 
         first_cat_embedding,final_cat_embedding = row_to_embedding(row)
         if first_cat_embedding.shape != (1, 2474) or final_cat_embedding.shape != (1,2474):
-            print(f'第{index}行 诊断和诊断时间的embedding')
             print(f'first shape {first_cat_embedding.shape}')
             print(f'final shape {final_cat_embedding.shape}')
-            print('此患者缺少信息，不添加到训练集中')
+            print('This patient is missing information and is not added to the training set')
         else:
             if unique_id not in first_unique_id_list:
                 first_to_save = (unique_id, first_cat_embedding)
@@ -514,7 +509,6 @@ def write_pkl(fn):
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
         results = list(executor.map(process_row, row_list))
 
-#由于初步诊断模型中，患者降维没有设置随机数，无法复原，所以患者只能用模型输入特征中降维之后的数据了
 #Since the first diagnostic model has no random numbers set for patient dimensionality reduction, it cannot be recovered, so the patient will have to use the data after dimensionality reduction in the model's input features.
 
 

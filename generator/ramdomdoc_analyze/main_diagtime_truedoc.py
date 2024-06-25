@@ -15,11 +15,11 @@ def get_diagtime_model(fn_pkl,flag,model_sort,diag_modelname):
     train_emb, _, test_em, test_label = data_split(data, flag, model_sort)
     test_uuid,test_patid, test_label_check = sampling_diagtime_of_uuid(data,flag)
     if list(test_label) != list(test_label_check):
-        print('测试集的uuid对应错误')
+        print('The uuid of the test set corresponds to the wrong')
     _, lowest_mae, model = lowest_rmse_model(model_path, flag, diag_modelname)
     rmse_eval(test_label, model.predict(test_em))
 
-    print('-----检查 测试集上的效果评估-----')
+    print('-----Check Evaluation of effects on the test set-----')
     test_y_range = diagtime_label_to_range(test_label, model.predict(test_em), 0.2)
     rmse_eval(test_y_range, model.predict(test_em))
 

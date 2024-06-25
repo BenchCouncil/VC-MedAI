@@ -7,7 +7,6 @@ from simulator.specialized.click_sequence.data_load_test import *
 from simulator.specialized.click_sequence.transformer import Transformer
 from nltk.translate.bleu_score import sentence_bleu,SmoothingFunction
 import warnings
-# 忽略特定类型的警告
 warnings.filterwarnings("ignore")
 import time
 import os

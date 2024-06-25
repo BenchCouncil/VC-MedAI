@@ -15,7 +15,7 @@ from tqdm import tqdm
 import os
 
 
-# 嵌入胸部影像图片,orig_imgs_weights是权重  根据检查时间到入院时间的距离 按小时算 一维列表
+#  Embedded chest images, orig_imgs_weights are weights based on distance from examination time to admission time by hour 1D list
 def multi_chest_xray_embeddings(imgs, orig_imgs_weights):
     # sys.stdout.flush()
     densefeature_embeddings = []
