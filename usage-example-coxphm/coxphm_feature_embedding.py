@@ -159,7 +159,8 @@ def model_final_input_emb(model_sort,flag,feature_numdim,pca_dim,clickseq):
 if __name__ == '__main__':
     #Sepsis simulator or normal simulator (sepsis, normal_0h, normal_3h), preliminary or final (first, final), the dimensions of the final simulator are increased by 1 compared to the preliminary simulator because the percentage of next-step features clicked by the doctor is added.
 
-    emb = sys.argv[1]
+    # emb = sys.argv[1]
+    emb = 'sepsis_preliminary'
 
     # Sepsis Model，preliminary diagnosis or preliminary diagnosis time simulator input
     if emb == 'sepsis_preliminary':

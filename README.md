@@ -160,4 +160,3 @@ The final model input data will require the predicted results from model "Patien
 |8|python main_diag_coxphm.py |Output the number of samples, the diagnosis accuracy of human clinician or virtual clinician on the coxphm data. |
 |9|python main_diagtime_coxphm.py|Output the number of samples, the diagnosis time of human clinician or virtual clinician on the coxphm data.|
 |10|python main_nextact_coxphm.py |Output examination item percentage to be viewed for final diagnosis of human clinician or virtual clinician on the coxphm data. |
-

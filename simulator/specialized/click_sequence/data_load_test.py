@@ -49,10 +49,10 @@ else:
 data = copy.deepcopy(data_coxphm)
 data_coxphm_after = copy.deepcopy(data_coxphm)
 data_temp_after = copy.deepcopy(data_temp)
-
-data.embedding = np.concatenate((data_temp.embedding, data_coxphm.embedding), axis=0)
-data.click_seq = data_temp.click_seq + data_coxphm.click_seq
-data.uuid = data_temp.uuid + data_coxphm.uuid
+if data_temp is not None and data_coxphm is not None:
+    data.embedding = np.concatenate((data_temp.embedding, data_coxphm.embedding), axis=0)
+    data.click_seq = data_temp.click_seq + data_coxphm.click_seq
+    data.uuid = data_temp.uuid + data_coxphm.uuid
 
 
 
