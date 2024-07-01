@@ -151,11 +151,11 @@ The final model input data will require the predicted results from model "Patien
 | No. | Code | Description |
 | ------- | ------- | ------- |
 |1|cd usage-example-coxphm/|Change directory.|
-|2|python coxphm_feature_embedding.py|Generating preliminary specialized and generalized model input data on the coxphm data.(Including Clinician, Model and Patient information.)     |
+|2|python coxphm_feature_embedding.py 'sepsis_preliminary' or 'normal_0h_preliminary' or 'normal_3h_preliminary'|Generating preliminary specialized and generalized model input data on the coxphm data.(Including Clinician, Model and Patient information.)     |
 |3|python simulator/specialized/click_sequence/predict_nextact_coxphm.py|Predicting the percentage for the next check on the coxphm data.The predicted results will be loaded into the final model input.  |
 |4|python simulator/generalized/0h/2_preliminary_0h_action.py 'predict'|Predicting with the generalized 0h model for patient advanced item ratio to be tested on the coxphm data.The predicted results will be loaded into the final model input. |
 |5|python simulator/generalized/3h/2_preliminary_3h_action.py 'predict'|Predicting with the generalized 3h model for patient advanced item ratio to be tested on the coxphm data.The predicted results will be loaded into the final model input. |
-|6|python coxphm_feature_embedding.py|Generating final specialized and generalized model input data on the coxphm.(Including Clinician, Model and Patient information.)|
+|6|python coxphm_feature_embedding.py 'sepsis_final' or 'normal_0h_final' or 'normal_3h_final'|Generating final specialized and generalized model input data on the coxphm.(Including Clinician, Model and Patient information.)|
 |7|vi model_name_constant.py |Choose VC-MedAI Simulator model between Specialized 0h, Generalized 0h, or Generalized 3h. |
 |8|python main_diag_coxphm.py |Output the number of samples, the diagnosis accuracy of human clinician or virtual clinician on the coxphm data. |
 |9|python main_diagtime_coxphm.py|Output the number of samples, the diagnosis time of human clinician or virtual clinician on the coxphm data.|
