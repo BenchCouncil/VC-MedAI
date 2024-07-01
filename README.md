@@ -1,6 +1,6 @@
 # VC-MedAI---Establishing Rigorous and Cost-effective Clinical Trials for AI in Medicine
 
-# 1. Data Access to AI.vs.Clinician and MIMIC databases.
+# 1. Data Access to AI.vs.Clinician and MIMIC Databases.
 
 VC-MedAI is constructed based on AI.vs.Clinician, which comprises a set of comma-separated value (CSV) files indicating the interactions between AI and clinicians. 
 
