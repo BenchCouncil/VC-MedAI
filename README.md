@@ -148,7 +148,7 @@ The final model input data will require the predicted results from model "Patien
 |12|python main_normal_nextact_randomdoc.py |Output examination item percentage to be viewed for final diagnosis of virtual clinician. |
 |13|python main_normal_nextact_truedoc.py |Output examination item percentage to be viewed for final diagnosis of human clinician. |
 
-#4. Usage Example: VC-MedAI In-silico Trials for a New AI model
+# 4. Usage Example: VC-MedAI In-silico Trials for a New AI model
 | No. | Code | Description |
 | ------- | ------- | ------- |
 |1|cd usage-example-coxphm/|Change directory.|
