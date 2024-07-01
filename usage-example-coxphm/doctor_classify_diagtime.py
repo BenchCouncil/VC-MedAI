@@ -124,9 +124,9 @@ def doctor_unit(unit,df_log,combine_param):
         df = df_log[df_log['doctor_unit'] == 2]
     else:
         df = df_log[df_log['doctor_unit'] == 3]
-    test_uuid, test_patient_id, test_truedoc_diag, test_virdoc_diag = combine_param
+    test_uuid, test_patient_id, test_truedoc_diag,test_truedoc_diag_range, test_virdoc_diag = combine_param
     uuid_list = list(df['uuid'])
-    return abstract_idlist(uuid_list,test_uuid,test_patient_id,test_truedoc_diag,test_virdoc_diag)
+    return abstract_idlist(uuid_list,test_uuid,test_patient_id,test_truedoc_diag,test_truedoc_diag_range,test_virdoc_diag)
 
 
 def doctor_sex(sex,df_log,combine_param):

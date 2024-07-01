@@ -69,7 +69,7 @@ if __name__ == '__main__':
     df_sample = pd.read_csv(final_sample_data,encoding='gbk',usecols=['UNIQUE_ID','ILL_TIME','TIME_RANGE'])
     df_log = pd.read_csv(log_data,encoding='gbk')
     
-    combine_param_test =  virdoc_nextact()
+    combine_param_test = virdoc_nextact()
 
     get_true_virdoc_acc('所有测试集',df_sample,combine_param_test)
 
