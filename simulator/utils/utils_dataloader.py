@@ -310,3 +310,32 @@ def df_convert_datatime(df,rowname):
     return df
 
 
+
+def coxphm_test_diag(data_test):
+    test_em, test_label, _, _ = to_xgb(data_test)
+    print(f'totaldata sum {len(test_em)}')
+    print(f'test sum {len(test_em)}, 正样本数量 {sum(test_label)}, 负样本数量 {len(test_label) - sum(test_label)}')
+    return test_em, test_label
+
+def coxphm_test_diagtime(data_test,flag):
+    data_test = select_data(data_test,flag)
+    train_emb, _, train_diagtime, _ = to_xgb(data_test)
+    return train_emb,train_diagtime
+
+def coxphm_test_nextact(data_test):
+    # 全部查看就2条数据，去掉，改成8分类了
+    data_test.uuid = [uuid for uuid, percent_action in zip(data_test.uuid, data_test.percent_action) if
+                           percent_action != 1]
+    data_test.patient_id = [patient_id for patient_id, percent_action in
+                                 zip(data_test.patient_id, data_test.percent_action) if
+                                 percent_action != 1]
+    data_test.embedding = [embedding for embedding, percent_action in
+                                zip(data_test.embedding, data_test.percent_action) if
+                                percent_action != 1]
+    data_test.percent_action = [percent_action for percent_action in data_test.percent_action if
+                                     percent_action != 1]
+
+    test_em, _, _, test_label = to_xgb(data_test)
+    print(f'totaldata sum {len(test_em)}')
+    print(f'test sum {len(test_em)}, 正样本数量 {sum(test_label)}, 负样本数量 {len(test_label) - sum(test_label)}')
+    return test_em, test_label

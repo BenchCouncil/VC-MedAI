@@ -140,10 +140,19 @@ The final model input data will require the predicted results from model "Patien
 |5|python randomdoc_sepsis_nextact_predict.py |Predicting the advanced item ratio for patients using virtual clinician. The predicted results will be loaded into the final model input.|
 |6|python randomdoc_first_final_embedding.py |Generating model input data. (Including Virtual Clinician, Model and Patient information.)|
 | |cd generator/ramdomdoc_analyze/ |Switch Path.|
-|7|python randomdoc_constant.py |Choose VC-MedAI Simulator model between Specialized 0h, Generalized 0h, or Generalized 3h. |
+|7|vi randomdoc_constant.py |Choose VC-MedAI Simulator model between Specialized 0h, Generalized 0h, or Generalized 3h. |
 |8|python main_diag_randomdoc.py |Output the number of samples, the diagnosis accuracy of virtual clinician. |
 |9|python main_diag_truedoc.py |Output the number of samples, the diagnosis accuracy of human clinician.|
 |10|python main_diagtime_randomdoc.py|Output the number of samples, the diagnosis time of virtual clinician. |
 |11|python main_diagtime_truedoc.py |Output the number of samples, the diagnosis time of human clinician. |
 |12|python main_normal_nextact_randomdoc.py |Output examination item percentage to be viewed for final diagnosis of virtual clinician. |
 |13|python main_normal_nextact_truedoc.py |Output examination item percentage to be viewed for final diagnosis of human clinician. |
+
+#4. Usage Example: VC-MedAI In-silico Trials for a New AI model
+| No. | Code | Description |
+| ------- | ------- | ------- |
+|1|cd usage-example-coxphm/|Change directory.|
+|2|vi randomdoc_constant.py |Choose VC-MedAI Simulator model between Specialized 0h, Generalized 0h, or Generalized 3h. |
+|3|python main_diag_testdata_coxphm.py |Output the number of samples, the diagnosis accuracy of human clinician or virtual clinician the coxphm data. |
+|4|python main_diagtime_testdata_coxphm.py|Output the number of samples, the diagnosis time of human clinician or virtual clinician on the coxphm data.|
+|5|python main_nextact_testdata_coxphm.py |Output examination item percentage to be viewed for final diagnosis of human clinician or virtual clinician on the coxphm data. |
