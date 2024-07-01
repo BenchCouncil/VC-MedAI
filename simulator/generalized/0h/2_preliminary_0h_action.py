@@ -47,15 +47,27 @@ def add_next_act():
     df = pd.read_csv(root + 'datasets/csv_and_pkl/data_0321_7000.csv', encoding='gbk')
     _, _, best_model = best_auc_model(root + f'model_save/{model_sort}_model/', flag, model)  # 模型名字最后一个acc
     df_new = pd.DataFrame(columns=df.columns)
+    df_new_coxphm = pd.DataFrame(columns=df.columns)
+    fn_pkl_coxphm = root + f'datasets/{model_sort}_model_input/{flag}_data_7000_dim_{feature_dimnum}_coxphm.pkl'
+    data_coxphm = Data(fn=fn_pkl_coxphm, flag=flag)
 
-    for index,row in df.iterrows():
-        uuid = row['uuid'] #uuid is unique identifier
+    for index, row in df.iterrows():
+        uuid = row['uuid']  # uuid是唯一标识
         if uuid in data.uuid:
             embedding = data.get_emb_by_uuid(uuid)
             predict_nextact = best_model.predict([embedding])
             row['predict_nextact'] = predict_nextact[0]
             df_new = df_new.append(row, ignore_index=True)
-    df_new.to_csv(root+f'datasets/{model_sort}_model_input/data_0321_7000_{model_sort}_nextact.csv', mode='w', index=False, encoding='gbk', header=True, quoting=csv.QUOTE_ALL)
+
+        if uuid in data_coxphm.uuid:
+            embedding = data_coxphm.get_emb_by_uuid(uuid)
+            predict_nextact = best_model.predict([embedding])
+            row['predict_nextact'] = predict_nextact[0]
+            df_new_coxphm = df_new_coxphm.append(row, ignore_index=True)
+    df_new.to_csv(root + f'datasets/{model_sort}_model_input/data_0321_7000_{model_sort}_nextact.csv', mode='w',
+                  index=False, encoding='gbk', header=True, quoting=csv.QUOTE_ALL)
+    df_new_coxphm.to_csv(root + f'datasets/{model_sort}_model_input/data_0321_7000_{model_sort}_nextact_coxphm.csv',
+                         mode='w', index=False, encoding='gbk', header=True, quoting=csv.QUOTE_ALL)
 
 
 

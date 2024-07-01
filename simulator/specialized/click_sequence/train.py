@@ -40,8 +40,9 @@ def custom_loss(predict, label):
 if __name__ == "__main__":
     if not os.path.exists(model_path):
        os.makedirs(model_path, exist_ok=True)
+    X_train, Y_train, Y_train_uuid, X_test, Y_test, Y_test_uuid, X_coxphm_test, Y_coxphm_test, Y_coxphm_test_uuid = train_test_load(
+        train_resample)
 
-    X_train, Y_train,Y_train_uuid, X_test, Y_test,Y_test_uuid, value_to_index = train_test_load(train_resample)
     print('Data loading complete.')
     enc_inputs, dec_inputs, dec_outputs,uuids = make_data(X_train,Y_train,Y_train_uuid)
     test_enc_inputs, test_dec_inputs, test_dec_outputs,test_uuids = make_data(X_test,Y_test,Y_test_uuid)

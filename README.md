@@ -57,14 +57,15 @@ The MIMIC-IV-Note primarily consists of discharge summaries and imaging text rep
 ## 2.2 VC-MedAI Specialized Simulator for Sepsis
 ### 2.2.1 Clinician Click Sequence of Viewed Examination Items Model
 
-| No. | Code | Description |
-| ------- | ------- | ------- |
-|1|cd simulator/data_process/|Change directory.|
-|2|python 3_final_embedding.py 'sequence'|Generating preliminary specialized model input data.(Including Clinician, Model and Patient information.)|
-|3|cd simulator/specialized/click_sequence/|Change directory.|
-|5|python train.py|Model training.|
-|6|python predict_and_eval.py|Model evaluation and prediction.|
-|7|python predict_nextact.py|Predicting the percentage for the next check.The predicted results will be loaded into the final model input.|
+| No. | Code | Description                                                                                                                      |
+|-----| ------- |----------------------------------------------------------------------------------------------------------------------------------|
+| 1   |cd simulator/data_process/| Change directory.                                                                                                                |
+| 2   |python 3_final_embedding.py 'sequence'| Generating preliminary specialized model input data.(Including Clinician, Model and Patient information.)                        |
+| 3   |cd simulator/specialized/click_sequence/| Change directory.                                                                                                                |
+| 5   |python train.py| Model training.                                                                                                                  |
+| 6   |python predict_and_eval.py| Model evaluation and prediction.                                                                                                 |
+| 7   |python predict_nextact.py| Predicting the percentage for the next check expect coxphm data.The predicted results will be loaded into the final model input. |
+| 8   |python predict_nextact_coxphm.py| Predicting the percentage for the next check on coxphm data.The predicted results will be loaded into the final model input.     |
 
 
 ### 2.2.2 Clinician Diagnosis and Diagnosis Time Models (Preliminary and Final)

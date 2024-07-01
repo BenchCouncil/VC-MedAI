@@ -27,7 +27,8 @@ def get_dec_input(model, enc_input, start_symbol):
 
 
 def preprocess_emb():
-    fn_pkl = f'{pro_path}datasets/sepsis_model_input/first_data_7000_dim_35_clickseq.pkl'
+    root = '/home/ddcui/doctor-coxphm-29/'
+    fn_pkl = root + f'datasets/sepsis_model_input/first_data_7000_dim_35_clickseq_coxphm.pkl'
     data = Data(fn=fn_pkl, flag='first')
     data.embedding = data.embedding.astype(int)
     arr = data.embedding
@@ -47,13 +48,10 @@ def preprocess_emb():
     return data
 
 
-def add_nextact(data_new,predicted_uuid_list):
+def add_nextact(data_new):
     i = 1
     for uuid,emb in zip(data_new.uuid,data_new.embedding):
-        if predicted_uuid_list is not None:
-            if uuid in predicted_uuid_list:
-                continue
-        print(f'Indexing of predictive data:{i}')
+        print(i)
         i+=1
         enc_input = torch.LongTensor(emb)
         enc_input = enc_input.to(device)
@@ -70,7 +68,7 @@ def add_nextact(data_new,predicted_uuid_list):
         nextact = count/8
 
         data_to_save = (uuid, nextact)
-        with open(nextact_topath, 'ab') as file:
+        with open(nextact_topath_coxphm, 'ab') as file:
             pickle.dump(data_to_save, file)
 
 
@@ -89,22 +87,19 @@ def read_nextact_pkl(topath):
 
 
 
-nextact_topath = root+f'datasets/sepsis_model_input/data_0321_7000_sepsis_nextact.pkl'
 nextact_topath_coxphm = root+f'datasets/sepsis_model_input/data_0321_7000_sepsis_nextact_coxphm.pkl'
 
 
-if __name__ == '__main__':
-    print('predicting the percentage of next checks based on the click sequence simulator')
 
+if __name__ == '__main__':
     model = Transformer().to(device)
     model.load_state_dict(torch.load(model_path+test_model_name))
     model.eval()
-
-    if os.path.exists(nextact_topath):
-        predicted_uuid_list, _ = read_nextact_pkl(nextact_topath)
+    if os.path.exists(nextact_topath_coxphm):
+        predicted_uuid_list, _ = read_nextact_pkl(nextact_topath_coxphm)
     else:
         predicted_uuid_list = None
-    #Predicting the percentage for the next check
+    #预测下一步检查百分比
     data_new = preprocess_emb()
-    add_nextact(data_new,predicted_uuid_list)
+    add_nextact(data_new)
 

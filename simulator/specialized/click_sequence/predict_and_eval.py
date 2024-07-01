@@ -144,10 +144,9 @@ if __name__ == '__main__':
     model.load_state_dict(torch.load(model_path + test_model_name))
     model.eval()
 
-    X_train, Y_train, Y_train_uuid, X_test, Y_test, Y_test_uuid, _ = train_test_load(test_resample)
-
-    # for X_temp,Y_temp,Y_uuid,flag in [(X_train, Y_train, Y_train_uuid,'train'),(X_test, Y_test, Y_test_uuid,'test')]:
-    for X_temp, Y_temp, Y_uuid, flag in [(X_test, Y_test, Y_test_uuid, 'test')]:
+    X_train, Y_train, Y_train_uuid, X_test, Y_test, Y_test_uuid, X_coxphm_test, Y_coxphm_test, Y_coxphm_test_uuid = train_test_load(test_resample)
+    # for X_temp, Y_temp, Y_uuid, flag in [(X_test, Y_test, Y_test_uuid, 'test')]: #eval in coxphm data
+    for X_temp, Y_temp, Y_uuid, flag in [(X_test, Y_test, Y_test_uuid, 'test')]: #eval in test data
         print(f'----------{flag}-----------')
 
         enc_inputs, dec_inputs, dec_outputs, uuids = make_data(X_temp, Y_temp, Y_uuid)

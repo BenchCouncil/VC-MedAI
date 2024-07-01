@@ -8,6 +8,7 @@ import pickle
 import re
 import os
 from sklearn import metrics
+from sklearn.utils import resample
 
 
 def save_model(model, model_path):
@@ -89,7 +90,9 @@ def extract_eval(text):
 def diag_eval(test_diag, y_pred, y_pred_prob):
     accuracy = round(accuracy_score(test_diag, y_pred), 4)
     auc = round(roc_auc_score(test_diag, y_pred_prob), 4)
-
+    tn, fp, fn, tp = confusion_matrix(test_diag, y_pred).ravel()
+    sensitivity = round(tp / (tp + fn), 4)
+    specificity = round(tn / (tn + fp), 4)
     print(f'acc {accuracy},auc {auc}')
     return round(accuracy * 100, 2), round(auc * 100, 2)
 
@@ -99,6 +102,32 @@ def rmse_eval(true_values, predicted_values):
     r2 = r2_score(true_values,predicted_values)
     print(f'Label的均值:{round(np.mean(true_values), 4)}，Label的标准差{round(np.std(true_values), 4)}，MAE: {round(mae, 4)}，RMSE: {round(rmse, 4)}')
     return round(rmse, 4),round(mae, 4)
+
+
+def cal_ci(flag,y_true, y_pred):
+    y_true = np.array(y_true)
+    y_pred = np.array(y_pred)
+    n_bootstraps = 1000
+    np.random.seed(42)
+    bootstrapped = []
+    for _ in range(n_bootstraps):
+        indices = resample(range(len(y_true)), replace=True, n_samples=len(y_true))
+        if len(np.unique(y_true[indices])) < 2:
+            continue
+        if flag == 'acc':
+            bootstrapped.append(accuracy_score(y_true[indices], y_pred[indices]))
+        elif flag == 'auc':
+            bootstrapped.append(roc_auc_score(y_true[indices], y_pred[indices]))
+        elif flag == 'mae':
+            bootstrapped.append(mean_absolute_error(y_true[indices], y_pred[indices]))
+        elif flag == 'auc_ovo':
+            bootstrapped.append(roc_auc_score(y_true[indices], y_pred[indices],multi_class='ovo'))
+
+    confidence_level = 95
+    lower_percentile = (100 - confidence_level) / 2
+    upper_percentile = 100 - lower_percentile
+    conf_interval = np.percentile(bootstrapped, [lower_percentile, upper_percentile])
+    return conf_interval
 
 #label become range:（label-label*20%）~（label+label*20%）
 def diagtime_label_to_range(true_values, predicted_values,threshold):

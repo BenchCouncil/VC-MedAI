@@ -4,7 +4,7 @@ sys.path.append(pro_path)
 import pickle
 import os
 from simulator.data_process.click_sequence.doctor_click import get_click_seq
-from simulator.specialized.click_sequence.predict_nextact import nextact_topath,read_nextact_pkl
+from simulator.specialized.click_sequence.predict_nextact import nextact_topath,nextact_topath_coxphm,read_nextact_pkl
 from simulator.data_process.embedding.doctor_embedding import *
 from simulator.data_process.embedding.model_embedding import *
 from simulator.data_process.reduce_dim.reduce_dim import pca
@@ -28,7 +28,7 @@ def convert_diag(text):
 
 
 
-def first_embedding(df,dict_patient_embeddings,model_sort,topath,feature_numdim,clickseq):
+def first_embedding(df,dict_patient_embeddings,model_sort,topath,topath_coxphm,feature_numdim,clickseq):
     for ind, row in df.iterrows():
         patinet_id = row['UNIQUE_ID']
         uuid = row['uuid']
@@ -38,7 +38,12 @@ def first_embedding(df,dict_patient_embeddings,model_sort,topath,feature_numdim,
 
         diag_time = row['first_diag_time']
         action_label = row['next_act_percent_label']
+        model_str = str(row['AI模型预测结果'])
 
+        if 'TREWScore' not in model_str:
+            topath_new = topath
+        else:
+            topath_new = topath_coxphm
 
         if model_sort == 'sepsis':#保留患者信息
             if np.all(doctor_emb == 0) or first_diag is None:  # 医生信息为空的样本就过滤掉
@@ -56,11 +61,11 @@ def first_embedding(df,dict_patient_embeddings,model_sort,topath,feature_numdim,
                 doctor_seq_label = get_click_seq(row['doctor_logid'],patinet_id )
                 if doctor_seq_label is not None:  # 不能合并到上面的条件
                     data_to_save = (uuid, patinet_id, cat_embedding, doctor_seq_label)
-                    with open(topath, 'ab') as file:
+                    with open(topath_new, 'ab') as file:
                         pickle.dump(data_to_save, file)
             else:
                 data_to_save = (uuid, patinet_id, cat_embedding, first_diag, diag_time, action_label)
-                with open(topath, 'ab') as file:
+                with open(topath_new, 'ab') as file:
                     pickle.dump(data_to_save, file)
         else:#普适模型 不保留患者信息
             if np.all(doctor_emb == 0) or first_diag is None:  # 医生信息为空的样本就过滤掉
@@ -69,20 +74,26 @@ def first_embedding(df,dict_patient_embeddings,model_sort,topath,feature_numdim,
             if len(cat_embedding) != feature_numdim:
                 print('Incorrect total number of model features')
             data_to_save = (uuid, patinet_id, cat_embedding, first_diag, diag_time, action_label)
-            with open(topath, 'ab') as file:
+            with open(topath_new, 'ab') as file:
                 pickle.dump(data_to_save, file)
 
-def get_nextact_by_uuid(uuid_list,nextact_list,uuid):
+def get_nextact_by_uuid(uuid_list,nextact_list,uuid_list_coxphm,nextact_list_coxphm,uuid):
     if uuid in uuid_list:
         index = uuid_list.index(uuid)
         return nextact_list[index]
+    if uuid in uuid_list_coxphm:
+        index = uuid_list_coxphm.index(uuid)
+        return nextact_list_coxphm[index]
     return 0
 
-def final_embedding(df, dict_patient_embeddings, model_sort, topath,feature_numdim):
+def final_embedding(df, dict_patient_embeddings, model_sort, topath,topath_coxphm,feature_numdim):
     uuid_list = []
     nextact_list = []
+    uuid_list_coxphm = []
+    nextact_list_coxphm = []
     if model_sort == 'sepsis':
         uuid_list, nextact_list = read_nextact_pkl(nextact_topath)
+        uuid_list_coxphm, nextact_list_coxphm = read_nextact_pkl(nextact_topath_coxphm)
 
     for ind, row in df.iterrows():
         patinet_id = row['UNIQUE_ID']
@@ -92,7 +103,12 @@ def final_embedding(df, dict_patient_embeddings, model_sort, topath,feature_numd
       
         final_diag = convert_diag(row['final_diag'])
         diag_time = row['final_diag_time']
+        model_str = str(row['AI模型预测结果'])
 
+        if 'TREWScore' not in model_str:
+            topath_new = topath
+        else:
+            topath_new = topath_coxphm
 
         if np.all(doctor_emb == 0) or final_diag is None:   # 医生信息为空的样本就过滤掉
             continue
@@ -102,15 +118,12 @@ def final_embedding(df, dict_patient_embeddings, model_sort, topath,feature_numd
             if patient_embedding is None:
                 continue
 
-            predict_action = 0
-            if uuid in uuid_list:
-                index = uuid_list.index(uuid)
-                predict_action = nextact_list[index]
+            predict_action = get_nextact_by_uuid(uuid_list,nextact_list,uuid_list_coxphm,nextact_list_coxphm,uuid)
             cat_embedding = np.concatenate((doctor_emb, model_emb, patient_embedding, [predict_action]), axis=0)
             if len(cat_embedding) != feature_numdim:
                 print('Incorrect total number of model features')
             data_to_save = (uuid, patinet_id, cat_embedding, final_diag, diag_time)
-            with open(topath, 'ab') as file:
+            with open(topath_new, 'ab') as file:
                 pickle.dump(data_to_save, file)
         else:  # 普适模型 不保留患者信息
             predict_action = [row['predict_nextact']]
@@ -118,7 +131,7 @@ def final_embedding(df, dict_patient_embeddings, model_sort, topath,feature_numd
             if len(cat_embedding) != feature_numdim:
                 print('Incorrect total number of model features')
             data_to_save = (uuid, patinet_id, cat_embedding,final_diag, diag_time)
-            with open(topath, 'ab') as file:
+            with open(topath_new, 'ab') as file:
                 pickle.dump(data_to_save, file)
 
 
@@ -130,6 +143,8 @@ def model_final_input_emb(model_sort,flag,feature_numdim,pca_dim,clickseq):
         os.makedirs(to_root)
     if flag == 'final' and model_sort != 'sepsis':
         df = pd.read_csv(to_root + f'data_0321_7000_{model_sort}_nextact.csv', encoding='gbk')
+        df_coxphm = pd.read_csv(to_root + f'data_0321_7000_{model_sort}_nextact_coxphm.csv', encoding='gbk')
+        df = pd.concat([df, df_coxphm])
     else:
         df = pd.read_csv(root + f'data_0321_7000.csv', encoding='gbk')
 
@@ -142,14 +157,17 @@ def model_final_input_emb(model_sort,flag,feature_numdim,pca_dim,clickseq):
         to_fn = to_root + f'{flag}_data_7000_dim_{feature_numdim}_clickseq.pkl'
     else:
         to_fn = to_root + f'{flag}_data_7000_dim_{feature_numdim}.pkl'
+
+    topath_coxphm = to_fn[:-4] + '_coxphm.pkl'
     if os.path.exists(to_fn):
         os.remove(to_fn)
-    else:
-        os.makedirs(to_root, exist_ok=True)
+    if os.path.exists(topath_coxphm):
+        os.remove(topath_coxphm)
+
     if flag == 'first':
-        first_embedding(df, dictionary, model_sort, to_fn,feature_numdim,clickseq)
+        first_embedding(df, dictionary, model_sort, to_fn,topath_coxphm,feature_numdim,clickseq)
     else:
-        final_embedding(df, dictionary, model_sort, to_fn,feature_numdim)
+        final_embedding(df, dictionary, model_sort, to_fn,topath_coxphm,feature_numdim)
 
 
 if __name__ == '__main__':
