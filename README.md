@@ -152,7 +152,7 @@ The final model input data will require the predicted results from model "Patien
 | No. | Code | Description |
 | ------- | ------- | ------- |
 |1|cd usage-example-coxphm/|Change directory.|
-|2|vi randomdoc_constant.py |Choose VC-MedAI Simulator model between Specialized 0h, Generalized 0h, or Generalized 3h. |
+|2|vi model_name_constant.py |Choose VC-MedAI Simulator model between Specialized 0h, Generalized 0h, or Generalized 3h. |
 |3|python main_diag_testdata_coxphm.py |Output the number of samples, the diagnosis accuracy of human clinician or virtual clinician the coxphm data. |
 |4|python main_diagtime_testdata_coxphm.py|Output the number of samples, the diagnosis time of human clinician or virtual clinician on the coxphm data.|
 |5|python main_nextact_testdata_coxphm.py |Output examination item percentage to be viewed for final diagnosis of human clinician or virtual clinician on the coxphm data. |
