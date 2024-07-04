@@ -1,4 +1,4 @@
-# VC-MedAI---Establishing Rigorous and Cost-effective Clinical Trials for AI in Medicine
+# VC-MedAI---Establishing Rigorous and Cost-effective Clinical Trials for Artificial Intelligence Models
 
 # 1. Data Access to AI.vs.Clinician and MIMIC Databases.
 
