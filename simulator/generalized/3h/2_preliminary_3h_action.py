@@ -106,7 +106,7 @@ def objective(trial,train_x,train_y,val_x,val_y,test_x,test_y,model_path,kforder
     acc,auc = multu_class_eval(test_y, model.predict_proba(test_x))
     global best_acc
     if acc > best_acc:
-        print('sace model')
+        print('save model')
         xgb_save_model(model, model_path=model_path + f'auc_{auc}_acc_{acc}.dat')
         best_acc = acc
     return acc

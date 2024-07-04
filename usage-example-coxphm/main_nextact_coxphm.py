@@ -17,7 +17,7 @@ def get_nextact_model(fn_pkl,flag,model_sort,diag_modelname):
     test_patid = data.patient_id
 
     _, best_auc1, model = best_auc_model(model_path, flag, diag_modelname)
-    print('-----检查 coxphm集上的效果评估-----')
+    print('-----Check the effect evaluation on the coxphm set-----')
     test_label = np.array([int(num * 8) for num in test_label])
     multu_class_eval(test_label, model.predict_proba(test_em))
     test_virdoc_next = model.predict(test_em)

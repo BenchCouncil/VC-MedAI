@@ -14,7 +14,7 @@ batchsize = 64 #when training is 64
 lr= 0.0001
 epochs = 10
 model_path = f'{pro_path}model_save/sepsis_model/transformer/'
-test_model_name = 'model_set_acc_0.81_truedoc_seqlen_5.2_predict_seqlen_5.77.pth'
+test_model_name = 'model_set_acc_0.8_truedoc_seqlen_5.18_predict_seqlen_6.01.pth'
 
 
 device = 'cuda:0'

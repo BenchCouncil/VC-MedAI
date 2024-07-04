@@ -18,7 +18,7 @@ def get_diagtime_model(fn_pkl,flag,model_sort,diag_modelname):
     test_patid = data.patient_id
 
     _, lowest_mae, model = lowest_rmse_model(model_path, flag, diag_modelname)
-    print('-----检查 coxphm集上的效果评估-----')
+    print('-----Check the effect evaluation on the coxphm set-----')
     test_y_range = diagtime_label_to_range(test_label, model.predict(test_em), 0.2)
     rmse_eval(test_y_range, model.predict(test_em))
 

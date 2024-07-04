@@ -11,9 +11,7 @@ def train():
     for train_index, val_index in skf.split(kflod_em, kflod_label):
         X_train, X_val = kflod_em[train_index], kflod_em[val_index]
         y_train, y_val = kflod_label[train_index], kflod_label[val_index]
-        if kforder < 4:
-          kforder+=1
-          continue
+
         model_path = root + f'model_save/{model_sort}_model/{flag}_{model}_dim_{feature_dimnum}_kford_{kforder}_'
         study = optuna.create_study(direction='maximize',sampler=optuna.samplers.TPESampler(seed=10))  # maximize   minimize
         study.optimize(lambda trial: objective(trial, X_train,y_train,X_val,y_val,test_em,test_label,model_path,kforder), n_trials=n_trials)  # You can adjust the number of trials

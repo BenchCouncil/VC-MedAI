@@ -167,7 +167,7 @@ def train_test_load(resample):
         Y_train_augmented = np.concatenate([Y_train_augmented, Y_train_copy], axis=0)
         Y_train_uuid_augmented = np.concatenate([Y_train_uuid_augmented, Y_train_uuid_copy], axis=0)
 
-    # 对扩增后的训练集进行随机打乱
+
     shuffle_indices = np.random.permutation(len(X_train_augmented))
     X_train_augmented = X_train_augmented[shuffle_indices]
     Y_train_augmented = Y_train_augmented[shuffle_indices]

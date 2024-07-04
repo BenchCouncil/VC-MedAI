@@ -23,9 +23,6 @@ def get_dec_input(model, enc_input, start_symbol):
         next_symbol = next_word.item()
     return dec_input
 
-
-
-
 def preprocess_emb():
     fn_pkl = f'{pro_path}datasets/sepsis_model_input/first_data_7000_dim_35_clickseq.pkl'
     data = Data(fn=fn_pkl, flag='first')
@@ -73,7 +70,6 @@ def add_nextact(data_new,predicted_uuid_list):
         with open(nextact_topath, 'ab') as file:
             pickle.dump(data_to_save, file)
 
-
 def read_nextact_pkl(topath):
     global uuid_list,nextact_list
     loaded_data = []
@@ -88,10 +84,8 @@ def read_nextact_pkl(topath):
     return uuid_list, nextact_list
 
 
-
 nextact_topath = root+f'datasets/sepsis_model_input/data_0321_7000_sepsis_nextact.pkl'
 nextact_topath_coxphm = root+f'datasets/sepsis_model_input/data_0321_7000_sepsis_nextact_coxphm.pkl'
-
 
 if __name__ == '__main__':
     print('predicting the percentage of next checks based on the click sequence simulator')

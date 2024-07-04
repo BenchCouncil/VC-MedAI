@@ -1,11 +1,8 @@
 from torch.utils.data import Dataset
-import random
 import numpy as np
 import copy
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
-from collections import Counter
-from sklearn.decomposition import PCA
 from sklearn.model_selection import KFold
 from simulator.utils.utils_io_pkl import *
 
@@ -276,9 +273,9 @@ def data_split(data,flag, model):
         train_em, train_label, val_em, val_label, test_em, test_label = stratify_sampling_nextact(data)
     print(f'totaldata sum {len(train_em)+len(val_em)+len(test_em)}')
     if model != 'clickseq' and model != 'diagtime':
-        print(f'train sum {len(train_em)}, 正样本数量 {sum(train_label)}, 负样本数量 {len(train_label) - sum(train_label)}')
-        print(f'val sum {len(val_em)}, 正样本数量 {sum(val_label)}, 负样本数量 {len(val_label) - sum(val_label)}')
-        print(f'test sum {len(test_em)}, 正样本数量 {sum(test_label)}, 负样本数量 {len(test_label) - sum(test_label)}')
+        print(f'train sum {len(train_em)}, positive num {sum(train_label)}, negative num {len(train_label) - sum(train_label)}')
+        print(f'val sum {len(val_em)}, positive num {sum(val_label)}, negative num {len(val_label) - sum(val_label)}')
+        print(f'test sum {len(test_em)}, positive num {sum(test_label)}, negative num {len(test_label) - sum(test_label)}')
     return np.concatenate((train_em,val_em)), np.concatenate((train_label,val_label)), test_em, test_label
 
 
@@ -314,7 +311,7 @@ def df_convert_datatime(df,rowname):
 def coxphm_test_diag(data_test):
     test_em, test_label, _, _ = to_xgb(data_test)
     print(f'totaldata sum {len(test_em)}')
-    print(f'test sum {len(test_em)}, 正样本数量 {sum(test_label)}, 负样本数量 {len(test_label) - sum(test_label)}')
+    print(f'test sum {len(test_em)}, positive num {sum(test_label)}, negative num {len(test_label) - sum(test_label)}')
     return test_em, test_label
 
 def coxphm_test_diagtime(data_test,flag):
@@ -337,5 +334,5 @@ def coxphm_test_nextact(data_test):
 
     test_em, _, _, test_label = to_xgb(data_test)
     print(f'totaldata sum {len(test_em)}')
-    print(f'test sum {len(test_em)}, 正样本数量 {sum(test_label)}, 负样本数量 {len(test_label) - sum(test_label)}')
+    print(f'test sum {len(test_em)}, positive num {sum(test_label)}, negative num {len(test_label) - sum(test_label)}')
     return test_em, test_label

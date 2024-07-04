@@ -18,7 +18,6 @@ def make_data(X,Y,Y_uuid):
     return torch.LongTensor(enc_inputs), torch.LongTensor(dec_inputs), torch.LongTensor(dec_outputs),uuids
 
 
-
 class MyDataSet(Data1.Dataset):
     def __init__(self, enc_inputs, dec_inputs, dec_outputs):
         super(MyDataSet, self).__init__()

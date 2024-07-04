@@ -24,8 +24,6 @@ def get_dec_input(model, enc_input, start_symbol):
     return dec_input
 
 
-
-
 def preprocess_emb():
     root = '/home/ddcui/doctor-coxphm-29/'
     fn_pkl = root + f'datasets/sepsis_model_input/first_data_7000_dim_35_clickseq_coxphm.pkl'
@@ -86,10 +84,7 @@ def read_nextact_pkl(topath):
     return uuid_list, nextact_list
 
 
-
 nextact_topath_coxphm = root+f'datasets/sepsis_model_input/data_0321_7000_sepsis_nextact_coxphm.pkl'
-
-
 
 if __name__ == '__main__':
     model = Transformer().to(device)
@@ -99,7 +94,7 @@ if __name__ == '__main__':
         predicted_uuid_list, _ = read_nextact_pkl(nextact_topath_coxphm)
     else:
         predicted_uuid_list = None
-    #预测下一步检查百分比
+
     data_new = preprocess_emb()
     add_nextact(data_new)
 
