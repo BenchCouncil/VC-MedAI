@@ -2,7 +2,7 @@
 
 # 1. Data Access to AI.vs.Clinician and MIMIC Databases.
 
-VC-MedAI is constructed based on AI.vs.Clinician, which comprises a set of comma-separated value (CSV) files indicating the interactions between AI and clinicians. 
+VC-MedAI is constructed based on Phase #1 DC-AI RCTs across 14 medical centers. The collected diagnosis records from two-phase DC-AI RCTs are public available from AI.vs.Clinician database, which comprises a set of comma-separated value (CSV) files indicating the interactions between AI and clinicians. 
 
 To access the AI.vs.Clinician database, the following steps need to be completed:
  
