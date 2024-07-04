@@ -50,7 +50,6 @@ def first_embedding(df,dict_patient_embeddings,model_sort,topath,topath_coxphm,f
                 continue
             patient_embedding = dict_patient_embeddings.get(patinet_id)
             if patient_embedding is None:
-                print('--------------------------')
                 continue
 
             cat_embedding = np.concatenate((doctor_emb, model_emb, patient_embedding), axis=0) #np.array(patient_embedding).flatten()
