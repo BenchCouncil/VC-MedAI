@@ -106,15 +106,14 @@ if __name__ == '__main__':
     #------------------模型角度------------------
     get_true_virdoc_acc('测试集中模型 无模型',df_sample, model_exper('无模型', df_log, combine_param_test))
     get_true_virdoc_acc('测试集中模型 RandomModel',df_sample, model_exper('RandomModel', df_log, combine_param_test))
-    get_true_virdoc_acc('测试集中模型 TREWScore',df_sample, model_exper('TREWScore', df_log, combine_param_test))
     get_true_virdoc_acc('测试集中模型 LSTM_AUC75',df_sample, model_exper('LSTM_AUC75', df_log, combine_param_test))
     get_true_virdoc_acc('测试集中模型 LSTM_AUC85',df_sample, model_exper('LSTM_AUC85', df_log, combine_param_test))
     get_true_virdoc_acc('测试集中模型 LSTM_AUC95',df_sample, model_exper('LSTM_AUC95', df_log, combine_param_test))
+    get_true_virdoc_acc('测试集中模型 TREWScore',df_sample, model_exper('TREWScore', df_log, combine_param_test))
 
     #------------------医生角度------------------
-
-    get_true_virdoc_acc('测试集中医生医院等级 二甲',df_sample, doctor_unit('二甲', df_log, combine_param_test))
     get_true_virdoc_acc('测试集中医生医院等级 三甲',df_sample, doctor_unit('三甲', df_log, combine_param_test))
+    get_true_virdoc_acc('测试集中医生医院等级 二甲',df_sample, doctor_unit('二甲', df_log, combine_param_test))
     get_true_virdoc_acc('测试集中医生医院等级 医学院',df_sample, doctor_unit('医学院', df_log, combine_param_test))
 
     get_true_virdoc_acc('测试集中医生性别 男',df_sample, doctor_sex('男', df_log, combine_param_test))
@@ -151,25 +150,3 @@ if __name__ == '__main__':
     get_true_virdoc_acc('测试集中医生部门 神经综合科', df_sample, doctor_depart(['神经综合科'], df_log, combine_param_test))
     get_true_virdoc_acc('测试集中医生部门 麻醉科', df_sample, doctor_depart(['麻醉科'], df_log, combine_param_test))
 
-    # ------------------模型是否显示角度------------------
-    get_true_virdoc_acc('测试集中模型 显示模型', df_sample, model_visexper(None, 'Yes', df_log, combine_param_test))
-    get_true_virdoc_acc('测试集中模型 不显示模型', df_sample, model_visexper(None, 'No', df_log, combine_param_test))
-    # RandomModel中都是不显示模型，没有显示模型的数据
-    get_true_virdoc_acc('测试集中模型 RandomModel中不显示模型', df_sample,
-                        model_visexper('RandomModel', 'No', df_log, combine_param_test))
-    get_true_virdoc_acc('测试集中模型 TREWScore中显示模型', df_sample,
-                        model_visexper('TREWScore', 'Yes', df_log, combine_param_test))
-    get_true_virdoc_acc('测试集中模型 TREWScore中不显示模型', df_sample,
-                        model_visexper('TREWScore', 'No', df_log, combine_param_test))
-    get_true_virdoc_acc('测试集中模型 LSTM_AUC75中显示模型', df_sample,
-                        model_visexper('LSTM_AUC75', 'Yes', df_log, combine_param_test))
-    get_true_virdoc_acc('测试集中模型 LSTM_AUC75中不显示模型', df_sample,
-                        model_visexper('LSTM_AUC75', 'No', df_log, combine_param_test))
-    get_true_virdoc_acc('测试集中模型 LSTM_AUC85中显示模型', df_sample,
-                        model_visexper('LSTM_AUC85', 'Yes', df_log, combine_param_test))
-    get_true_virdoc_acc('测试集中模型 LSTM_AUC85中不显示模型', df_sample,
-                        model_visexper('LSTM_AUC85', 'No', df_log, combine_param_test))
-    get_true_virdoc_acc('测试集中模型 LSTM_AUC95中显示模型', df_sample,
-                        model_visexper('LSTM_AUC95', 'Yes', df_log, combine_param_test))
-    get_true_virdoc_acc('测试集中模型 LSTM_AUC95中不显示模型', df_sample,
-                        model_visexper('LSTM_AUC95', 'No', df_log, combine_param_test))
